@@ -1,8 +1,8 @@
 import { getCurrentTimestamp } from "../utils/loggingUtil.js";
 
-const namespaceOne = (req, res) => {
+const namespaceName = (req, res) => {
   try {
-    console.log(`${getCurrentTimestamp()} - 📥 namespaceOne - Incoming request!`);
+    console.log(`${getCurrentTimestamp()} - 📥 namespaceName - Incoming request!`);
 
     console.log(`${getCurrentTimestamp()} - Authorization header: ${req.headers.authorization || "Not provided"}`);
     console.log("success!");
@@ -21,8 +21,8 @@ const namespaceOne = (req, res) => {
     });
   } catch (error) {
     res.status(500).send(error);
-    console.error(`${getCurrentTimestamp()} ❌ - namespaceOne - Error occurred: ${error.message}`);
+    console.error(`${getCurrentTimestamp()} ❌ - namespaceName - Error occurred: ${error.message}`);
   }
 };
 
-export default namespaceOne;
+export default namespaceName;
