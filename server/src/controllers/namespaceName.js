@@ -4,10 +4,9 @@ const namespaceName = (req, res) => {
   try {
     console.log(`${getCurrentTimestamp()} - 📥 namespaceName - Incoming request!`);
 
-    console.log(`${getCurrentTimestamp()} - Authorization header: ${req.headers.authorization || "Not provided"}`);
-    console.log("success!");
+    const namespace = req.params.namespaceName;
 
-    res.status(200).send({
+    const objects = {
       identifiers: [
         {
           namespace: ["namespace_onenamespace_one"],
@@ -18,7 +17,11 @@ const namespaceName = (req, res) => {
           name: "last_name",
         },
       ],
-    });
+    };
+
+    console.log(`${getCurrentTimestamp()} - 📤 namespaceName - Namespace ${namespace} objects provided!`);
+
+    res.status(200).send(objects);
   } catch (error) {
     res.status(500).send(error);
     console.error(`${getCurrentTimestamp()} ❌ - namespaceName - Error occurred: ${error.message}`);
