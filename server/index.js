@@ -1,3 +1,4 @@
+import "dotenv/config";
 import express from "express";
 import catalogRoutes from "./src/routes/catalog.js";
 import { getCurrentTimestamp } from "./src/utils/loggingUtil.js";
