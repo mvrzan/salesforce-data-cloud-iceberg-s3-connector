@@ -16,6 +16,14 @@ const namespaceName = (req, res) => {
           namespace: ["namespace_onenamespace_one"],
           name: "last_name",
         },
+        {
+          namespace: ["namespace_onenamespace_one"],
+          name: "date_of_birth",
+        },
+        {
+          namespace: ["namespace_onenamespace_one"],
+          name: "country",
+        },
       ],
     };
 
