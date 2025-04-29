@@ -1,14 +1,16 @@
 import { getCurrentTimestamp } from "../utils/loggingUtil.js";
 
-const config = (req, res) => {
+const config = (_req, res) => {
   try {
     console.log(`${getCurrentTimestamp()} - 📥 config - Incoming request!`);
 
-    console.log(`${getCurrentTimestamp()} - Authorization header: ${req.headers.authorization || "Not provided"}`);
-
-    res.status(200).send({
+    const config = {
       ttl: 5000,
-    });
+    };
+
+    console.log(`${getCurrentTimestamp()} - 📤 config - Configuration provided!`);
+
+    res.status(200).send(config);
   } catch (error) {
     res.status(500).send(error);
     console.error(`${getCurrentTimestamp()} ❌ - config - Error occurred: ${error.message}`);
