@@ -5,7 +5,7 @@ const namespaces = (_req, res) => {
     console.log(`${getCurrentTimestamp()} - 📥 namespaces - Incoming request!`);
 
     const namespacesInfo = {
-      namespaces: [["namespace_one"], ["namespace_two"]],
+      namespaces: [["Database_namespace_one"], ["Database_namespace_two"]],
     };
 
     console.log(`${getCurrentTimestamp()} - 📤 namespaces - Namespaces provided!`);
