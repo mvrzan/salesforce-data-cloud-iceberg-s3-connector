@@ -1,4 +1,5 @@
 import { getCurrentTimestamp } from "../utils/loggingUtil.js";
+import { NamespaceOneObjects, NamespaceTwoObjects, FallbackObjects } from "../utils/restCatalog.js";
 
 const namespaceTables = (req, res) => {
   try {
@@ -8,31 +9,16 @@ const namespaceTables = (req, res) => {
     const cleanNamespace = namespace.replace(String.fromCharCode(31), "");
 
     if (cleanNamespace === "Database_namespace_oneDatabase_namespace_one") {
-      // Logic specific to namespace_one
-      const objects = {
-        identifiers: [{ name: "users" }, { name: "user_activities" }],
-      };
-
       console.log(`${getCurrentTimestamp()} - 📤 namespaceTables - Namespace ${namespace} objects provided!`);
 
-      return res.status(200).send(objects);
+      return res.status(200).send(NamespaceOneObjects);
     } else if (cleanNamespace === "Database_namespace_oneDatabase_namespace_two") {
-      // Logic specific to namespace_two
-      const objects = {
-        identifiers: [{ name: "products" }, { name: "inventory" }],
-      };
-
       console.log(`${getCurrentTimestamp()} - 📤 namespaceTables - Namespace ${namespace} objects provided!`);
 
-      return res.status(200).send(objects);
+      return res.status(200).send(NamespaceTwoObjects);
     } else {
-      // Default logic for unrecognized namespaces
-      const objects = {
-        identifiers: [{ name: "namespace_not_detected" }, { name: "namespace_not_detected" }],
-      };
-
       console.log(`${getCurrentTimestamp()} - 📤 namespaceName - Default objects for ${namespace} provided!`);
-      return res.status(500).send(objects);
+      return res.status(500).send(FallbackObjects);
     }
   } catch (error) {
     res.status(500).send(error);
