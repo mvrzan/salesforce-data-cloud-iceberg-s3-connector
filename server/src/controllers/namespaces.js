@@ -1,12 +1,9 @@
 import { getCurrentTimestamp } from "../utils/loggingUtil.js";
+import { namespacesInfo } from "../utils/restCatalog.js";
 
 const namespaces = (_req, res) => {
   try {
     console.log(`${getCurrentTimestamp()} - 📥 namespaces - Incoming request!`);
-
-    const namespacesInfo = {
-      namespaces: [["Database_namespace_one"], ["Database_namespace_two"]],
-    };
 
     console.log(`${getCurrentTimestamp()} - 📤 namespaces - Namespaces provided!`);
 
