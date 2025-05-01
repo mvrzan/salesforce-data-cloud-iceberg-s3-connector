@@ -5,12 +5,12 @@ const namespaceTables = (req, res) => {
     console.log(`${getCurrentTimestamp()} - 📥 namespaceTables - Incoming request!`);
 
     const namespace = req.params.namespaceTables;
-    const cleanNamespace = namespace.replace(String.fromCharCode(31), "s");
+    const cleanNamespace = namespace.replace(String.fromCharCode(31), "");
 
     if (cleanNamespace === "Database_namespace_oneDatabase_namespace_one") {
       // Logic specific to namespace_one
       const objects = {
-        identifiers: [{ name: "first_name" }, { name: "last_name" }, { name: "date_of_birth" }, { name: "country" }],
+        identifiers: [{ name: "users" }, { name: "user_activities" }],
       };
 
       console.log(`${getCurrentTimestamp()} - 📤 namespaceTables - Namespace ${namespace} objects provided!`);
@@ -19,7 +19,7 @@ const namespaceTables = (req, res) => {
     } else if (cleanNamespace === "Database_namespace_oneDatabase_namespace_two") {
       // Logic specific to namespace_two
       const objects = {
-        identifiers: [{ name: "product_id" }, { name: "product_name" }, { name: "price" }],
+        identifiers: [{ name: "products" }, { name: "inventory" }],
       };
 
       console.log(`${getCurrentTimestamp()} - 📤 namespaceTables - Namespace ${namespace} objects provided!`);
