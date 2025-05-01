@@ -1,5 +1,5 @@
 import { getCurrentTimestamp } from "../utils/loggingUtil.js";
-import { usersTable, userActivities, customMetadata } from "../utils/restCatalog.js";
+import { usersTable, userActivities, productsTable, inventoryTable, customMetadata } from "../utils/restCatalog.js";
 
 const tableName = (req, res) => {
   try {
@@ -14,8 +14,8 @@ const tableName = (req, res) => {
       user_activities: userActivities,
 
       // Database_namespace_two tables
-      products: "products",
-      inventory: "inventory",
+      products: productsTable,
+      inventory: inventoryTable,
     };
 
     if (!tableSchemas[tableName]) {
