@@ -27,8 +27,6 @@ const tableName = (req, res) => {
 
     const customResponse = customMetadata(namespacesName, tableSchemas, tableName);
 
-    console.log("customResponse", customResponse);
-
     console.log(`${getCurrentTimestamp()} - ✅ tableName - Metadata returned for ${tableName}`);
 
     res.status(200).send(customResponse);
