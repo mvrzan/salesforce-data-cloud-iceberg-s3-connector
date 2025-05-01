@@ -139,3 +139,48 @@ export const userActivities = {
     },
   ],
 };
+
+export const customMetadata = (namespacesName, tableSchemas, tableName) => {
+  const schema = tableSchemas[tableName];
+
+  return {
+    formatVersion: 2,
+    metadata: {
+      "format-version": 2,
+      "table-uuid": `${namespacesName}-${tableName}-${Date.now()}`,
+      "last-sequence-number": 34,
+      location: `s3://${process.env.S3_BUCKET}`,
+      "last-updated-ms": Date.now(),
+      "last-column-id": schema.fields?.length,
+      "last-partition-id": 1000,
+      schemas: [schema],
+      "current-schema-id": 0,
+      "partition-specs": [
+        {
+          "spec-id": 0,
+          fields: [],
+        },
+      ],
+
+      "default-spec-id": 0,
+      "sort-orders": [
+        {
+          "order-id": 0,
+          fields: [],
+        },
+      ],
+
+      "default-sort-order-id": 0,
+
+      properties: {
+        "write.format.default": "parquet",
+        "write.parquet.compression-codec": "gzip",
+      },
+
+      "current-snapshot-id": -1,
+      snapshots: [],
+      "snapshot-log": [],
+      "metadata-log": [],
+    },
+  };
+};
