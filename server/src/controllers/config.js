@@ -5,7 +5,7 @@ const config = (_req, res) => {
     console.log(`${getCurrentTimestamp()} - 📥 config - Incoming request!`);
 
     const config = {
-      ttl: 5000,
+      success: true,
     };
 
     console.log(`${getCurrentTimestamp()} - 📤 config - Configuration provided!`);
