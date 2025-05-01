@@ -1,4 +1,5 @@
 import { getCurrentTimestamp } from "../utils/loggingUtil.js";
+import { usersTable } from "../utils/restCatalog.js";
 
 const tableName = (req, res) => {
   try {
@@ -7,70 +8,6 @@ const tableName = (req, res) => {
     const objectName = req.params.tableName;
 
     console.log(`${getCurrentTimestamp()} - 📥 Request for table: ${namespacesName}/${objectName}`);
-
-    // Define the schema once to reuse in both places
-    const currentSchema = {
-      type: "struct",
-      "schema-id": 0,
-      schemaId: 0,
-      fields: [
-        {
-          id: 1,
-          name: "Id",
-          required: false,
-          type: "string",
-          source_header: "ID",
-          field_label: "User ID",
-          field_api_name: "Id__c",
-          source_data_type: "VARCHAR",
-          inferred_data_type: "TEXT",
-        },
-        {
-          id: 2,
-          name: "first_name",
-          required: false,
-          type: "string",
-          source_header: "FIRST_NAME",
-          field_label: "User's first name",
-          field_api_name: "first_name__c",
-          source_data_type: "VARCHAR",
-          inferred_data_type: "TEXT",
-        },
-        {
-          id: 3,
-          name: "last_name",
-          required: false,
-          type: "string",
-          source_header: "LAST_NAME",
-          field_label: "User's last name",
-          field_api_name: "last_name__c",
-          source_data_type: "VARCHAR",
-          inferred_data_type: "TEXT",
-        },
-        {
-          id: 4,
-          name: "country",
-          required: false,
-          type: "string",
-          source_header: "COUNTRY",
-          field_label: "User's country",
-          field_api_name: "country__c",
-          source_data_type: "VARCHAR",
-          inferred_data_type: "TEXT",
-        },
-        {
-          id: 5,
-          name: "date_of_birth",
-          required: false,
-          type: "string",
-          source_header: "DATE_OF_BIRTH",
-          field_label: "User's Date of Birth",
-          field_api_name: "date_of_birth__c",
-          source_data_type: "VARCHAR",
-          inferred_data_type: "TEXT",
-        },
-      ],
-    };
 
     // The UI might be expecting a wrapped structure
     const response = {
@@ -102,10 +39,10 @@ const tableName = (req, res) => {
         "last-partition-id": 1000,
 
         // Single schema (current schema)
-        schema: currentSchema,
+        schema: usersTable,
 
         // Required for Iceberg Format V2: schemas array containing all schema versions
-        schemas: [currentSchema],
+        schemas: [usersTable],
 
         // Current schema ID reference
         currentSchemaId: 0,
