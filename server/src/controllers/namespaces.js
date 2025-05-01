@@ -5,7 +5,7 @@ const namespaces = (_req, res) => {
   try {
     console.log(`${getCurrentTimestamp()} - 📥 namespaces - Incoming request!`);
 
-    console.log(`${getCurrentTimestamp()} - 📤 namespaces - Namespaces provided!`);
+    console.log(`${getCurrentTimestamp()} - ✅ namespaces - Namespaces provided!`);
 
     res.status(200).send(namespacesInfo);
   } catch (error) {
