@@ -40,6 +40,8 @@ Learn how you can leverage Heroku AppLink with a Node.js Express server to expos
 
 ## API Documentation
 
+Official Apache Iceberg [Swagger](https://editor-next.swagger.io/?url=https://raw.githubusercontent.com/apache/iceberg/main/open-api/rest-catalog-open-api.yaml) documentation.
+
 ### Architecture diagram
 
 ## Technologies used
