@@ -15,7 +15,6 @@ Learn how you can leverage Heroku AppLink with a Node.js Express server to expos
 - [Data Cloud Apache Iceberg Connector with S3](#data-cloud-apache-iceberg-connector-with-s3)
 - [Table of Contents](#table-of-contents)
   - [What Does It Do?](#what-does-it-do)
-  - [What does it do?](#what-does-it-do-1)
   - [How does it work?](#how-does-it-work)
   - [Project Structure](#project-structure)
   - [API Documentation](#api-documentation)
@@ -37,14 +36,9 @@ Learn how you can leverage Heroku AppLink with a Node.js Express server to expos
 
 The Salesforce Data Cloud Iceberg S3 Connector facilitates seamless integration between Salesforce Data Cloud and AWS S3, utilizing Apache Iceberg's table format capabilities. This connector enables:
 
-- **Data Extraction**: Pulls data from Salesforce Data Cloud in a structured format
-- **S3 Storage Integration**: Stores extracted data in AWS S3 buckets as Apache Iceberg tables
-- **Schema Evolution**: Manages schema changes and data versioning through Iceberg's capabilities
-- **Analytics Readiness**: Makes Salesforce data immediately available for analytics and processing by data platforms supporting the Iceberg format
-
-Whether you're building a data lake, populating a data warehouse, or creating a unified customer data platform, this connector simplifies the process of making your Salesforce data available in cloud storage with a modern, performant table format.
-
-## What does it do?
+- **Data Extraction**: Data Cloud to read data directly from an S3 bucket without copying data to Data Cloud (Zero Copy)
+- **S3 Storage Integration**: Read parquet files directly from AWS S3
+- **Schema Evolution**: Manages schema changes and data versioning through Iceberg's native capabilities
 
 ## How does it work?
 
@@ -53,6 +47,8 @@ Whether you're building a data lake, populating a data warehouse, or creating a 
 ## API Documentation
 
 Official Apache Iceberg [Swagger](https://editor-next.swagger.io/?url=https://raw.githubusercontent.com/apache/iceberg/main/open-api/rest-catalog-open-api.yaml) documentation.
+Official Apache Iceberg [specifications](https://iceberg.apache.org/spec/).
+Official Apache Iceberg [GitHub](https://github.com/apache/iceberg).
 
 ### Architecture diagram
 
