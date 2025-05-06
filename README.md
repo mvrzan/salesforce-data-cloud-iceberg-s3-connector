@@ -34,7 +34,7 @@ Learn how you can leverage Heroku AppLink with a Node.js Express server to expos
 
 ## What Does It Do?
 
-The Salesforce Data Cloud Iceberg S3 Connector facilitates seamless integration between Salesforce Data Cloud and AWS S3, utilizing Apache Iceberg's table format capabilities. This connector enables:
+The Salesforce Data Cloud [Iceberg S3 Connector](https://developer.salesforce.com/docs/data/data-cloud-int/guide/c360-a-apacheiceberg-connector.html) facilitates seamless integration between Salesforce Data Cloud and AWS S3, utilizing Apache Iceberg's table format capabilities. This connector enables:
 
 - **Data Extraction**: Data Cloud to read data directly from an S3 bucket without copying data to Data Cloud (Zero Copy)
 - **S3 Storage Integration**: Read parquet files directly from AWS S3
@@ -43,6 +43,34 @@ The Salesforce Data Cloud Iceberg S3 Connector facilitates seamless integration 
 ## How does it work?
 
 ## Project Structure
+
+```
+├── README.md
+├── screenshots/                    # Contains images used in documentation
+├── server/
+│   ├── src/
+│   │   ├── controllers/            # API request handlers
+│   │   │   ├── config.js            # Config controller
+│   │   │   ├── namespaces.js       # Namespace controller
+│   │   │   ├── namespaceTables.js  # Tables by namespace controller
+│   │   │   └── tableName.js        # Table details controller
+│   │   ├── middleware/
+│   │   │   └── middleware.js       # Express middleware functions
+│   │   ├── routes/
+│   │   │   └── catalog.js          # Iceberg REST catalog routes
+│   │   ├── utils/
+│   │   │   ├── loggingUtil.js      # Logging helper functions
+│   │   │   └── metadata.js         # Iceberg schema & metadata definitions
+│   │   └── index.js                # Express application setup
+│   ├── package.json                # Dependencies and scripts
+|   ├── package-lock.json           # Dependencies
+│   └── .env.example                # Example environment variables
+└── examples/                       # Example files for connector usage
+    └── data/                       # Sample table parquet files
+    └── metadata/                   # Sample metadata files
+```
+
+This structure separates the server-side logic from documentation and examples, making it easier to navigate and maintain the codebase.
 
 ## API Documentation
 
