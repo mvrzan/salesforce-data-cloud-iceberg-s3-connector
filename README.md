@@ -70,13 +70,18 @@ The Salesforce Data Cloud [Iceberg S3 Connector](https://developer.salesforce.co
     └── metadata/                   # Sample metadata files
 ```
 
-This structure separates the server-side logic from documentation and examples, making it easier to navigate and maintain the codebase.
-
 ## API Documentation
 
-Official Apache Iceberg [Swagger](https://editor-next.swagger.io/?url=https://raw.githubusercontent.com/apache/iceberg/main/open-api/rest-catalog-open-api.yaml) documentation.
-Official Apache Iceberg [specifications](https://iceberg.apache.org/spec/).
-Official Apache Iceberg [GitHub](https://github.com/apache/iceberg).
+- Official Apache Iceberg [Swagger](https://editor-next.swagger.io/?url=https://raw.githubusercontent.com/apache/iceberg/main/open-api/rest-catalog-open-api.yaml) documentation.
+- Official Apache Iceberg [specifications](https://iceberg.apache.org/spec/).
+- Official Apache Iceberg [GitHub](https://github.com/apache/iceberg).
+
+**Core Endpoints**
+
+- `GET /v1/config` - Returns configuration details for the REST catalog
+- `GET /v1/namespaces` - Lists all available namespaces (in this implementation: Database_namespace_one, Database_namespace_two)
+- `GET /v1/namespaces/{namespace}/tables` - Lists all tables in a specific namespace
+- `GET /v1/namespaces/{namespace}/tables/{table}` - Returns detailed table metadata for a specific table
 
 ### Architecture diagram
 
@@ -85,6 +90,8 @@ Official Apache Iceberg [GitHub](https://github.com/apache/iceberg).
 - [Node.js](https://nodejs.org/en)
 - [Express](https://expressjs.com/)
 - [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+- [Salesforce Data Cloud](https://www.salesforce.com/data/)
+- [Heroku](https://www.heroku.com/)
 
 For a more detailed overview of the development & production dependencies, please check [`package.json`](./server/package.json).
 
