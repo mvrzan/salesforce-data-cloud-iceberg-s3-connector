@@ -17,7 +17,6 @@ export const FallbackObjects = {
 export const usersTable = {
   type: "struct",
   "schema-id": 0,
-  schemaId: 0,
   fields: [
     {
       id: 1,
@@ -79,8 +78,8 @@ export const usersTable = {
 
 export const userActivities = {
   type: "struct",
-  "schema-id": 0,
-  schemaId: 0,
+  "schema-id": 1,
+  schemaId: 1,
   fields: [
     {
       id: 1,
@@ -142,8 +141,8 @@ export const userActivities = {
 
 export const productsTable = {
   type: "struct",
-  "schema-id": 0,
-  schemaId: 0,
+  "schema-id": 2,
+  schemaId: 2,
   fields: [
     {
       id: 1,
@@ -205,8 +204,8 @@ export const productsTable = {
 
 export const inventoryTable = {
   type: "struct",
-  "schema-id": 0,
-  schemaId: 0,
+  "schema-id": 3,
+  schemaId: 3,
   fields: [
     {
       id: 1,
@@ -257,26 +256,32 @@ export const inventoryTable = {
 
 export const customMetadata = (namespacesName, tableSchemas, tableName) => {
   const schema = tableSchemas[tableName];
+  const sequenceNumber = 34;
+  const currentTime = Date.now();
+  const snapshotId = 12345678901234;
+  const schemaId = schema["schema-id"] || 0;
+  const tablePath = `s3://${process.env.S3_BUCKET}/Database_namespace_one/${tableName}`;
 
   return {
-    formatVersion: 2,
+    "metadata-location": "s3://mvrzan/Database_namespace_one/Database_namespace_one.db/users/metadata/v1.metadata.json",
     metadata: {
       "format-version": 2,
-      "table-uuid": `${namespacesName}-${tableName}-${Date.now()}`,
-      "last-sequence-number": 34,
-      location: `s3://${process.env.S3_BUCKET}`,
-      "last-updated-ms": Date.now(),
-      "last-column-id": schema.fields?.length,
+      "table-uuid": "sample-table-uuid-123456789",
+      //   location: `s3://mvrzan/Database_namespace_one/Database_namespace_one/users`,
+      location: `s3://mvrzan/Database_namespace_one/Database_namespace_one.db/users`,
+      "last-sequence-number": sequenceNumber,
+      "last-updated-ms": currentTime,
+      "last-column-id": 5,
       "last-partition-id": 1000,
+      schema: schema,
       schemas: [schema],
-      "current-schema-id": 0,
+      "current-schema-id": schemaId,
       "partition-specs": [
         {
           "spec-id": 0,
           fields: [],
         },
       ],
-
       "default-spec-id": 0,
       "sort-orders": [
         {
@@ -284,18 +289,49 @@ export const customMetadata = (namespacesName, tableSchemas, tableName) => {
           fields: [],
         },
       ],
-
       "default-sort-order-id": 0,
-
       properties: {
         "write.format.default": "parquet",
-        "write.parquet.compression-codec": "gzip",
+        "write.parquet.compression-codec": "snappy",
       },
-
-      "current-snapshot-id": -1,
-      snapshots: [],
-      "snapshot-log": [],
-      "metadata-log": [],
+      "current-snapshot-id": snapshotId,
+      snapshots: [
+        {
+          "sequence-number": sequenceNumber,
+          "snapshot-id": snapshotId,
+          "parent-snapshot-id": -1,
+          "timestamp-ms": currentTime,
+          "schema-id": 0,
+          "manifest-list": `s3://mvrzan/Database_namespace_one/Database_namespace_one.db/users/metadata/snap-12345678901234-1.avro`,
+        },
+      ],
+      "snapshot-log": [
+        {
+          "timestamp-ms": currentTime,
+          "snapshot-id": snapshotId,
+        },
+      ],
+      "metadata-log": [
+        {
+          "timestamp-ms": currentTime,
+          "metadata-file": `s3://mvrzan/Database_namespace_one/Database_namespace_one.db/users/metadata/v1.metadata.json`,
+        },
+      ],
     },
+    config: {
+      "client.region": "us-east-1",
+      "s3.access-key-id": "AKIAUAYFBJYNPUMQN5US",
+      "s3.secret-access-key": "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",
+    },
+    "storage-credentials": [
+      {
+        prefix: "s3://mvrzan",
+        config: {
+          "client.region": "us-east-1",
+          "s3.access-key-id": "AKIAUAYFBJYNPUMQN5US",
+          "s3.secret-access-key": "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",
+        },
+      },
+    ],
   };
 };

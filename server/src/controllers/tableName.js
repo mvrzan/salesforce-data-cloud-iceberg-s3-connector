@@ -1,5 +1,5 @@
 import { getCurrentTimestamp } from "../utils/loggingUtil.js";
-import { usersTable, userActivities, productsTable, inventoryTable, customMetadata } from "../utils/restCatalog.js";
+import { usersTable, userActivities, productsTable, inventoryTable, customMetadata } from "../utils/metadata.js";
 
 const tableName = (req, res) => {
   try {

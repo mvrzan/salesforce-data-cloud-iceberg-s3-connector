@@ -1,5 +1,5 @@
 import { getCurrentTimestamp } from "../utils/loggingUtil.js";
-import { NamespaceOneObjects, NamespaceTwoObjects, FallbackObjects } from "../utils/restCatalog.js";
+import { NamespaceOneObjects, NamespaceTwoObjects, FallbackObjects } from "../utils/metadata.js";
 
 const namespaceTables = (req, res) => {
   try {

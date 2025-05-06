@@ -1,5 +1,5 @@
 import { getCurrentTimestamp } from "../utils/loggingUtil.js";
-import { namespacesInfo } from "../utils/restCatalog.js";
+import { namespacesInfo } from "../utils/metadata.js";
 
 const namespaces = (_req, res) => {
   try {
