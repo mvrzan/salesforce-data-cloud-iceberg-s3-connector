@@ -85,6 +85,8 @@ The Salesforce Data Cloud [Iceberg S3 Connector](https://developer.salesforce.co
 
 ### Architecture diagram
 
+![](./screenshots/architecture-diagram.png)
+
 ## Technologies used
 
 - [Node.js](https://nodejs.org/en)
