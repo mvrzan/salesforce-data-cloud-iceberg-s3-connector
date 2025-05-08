@@ -42,6 +42,39 @@ The Salesforce Data Cloud [Iceberg S3 Connector](https://developer.salesforce.co
 
 ## How does it work?
 
+The Salesforce Data Cloud Iceberg S3 Connector functions as a REST API server that implements the Apache Iceberg REST Catalog API specification, acting as an intermediary between Salesforce Data Cloud and your AWS S3 storage:
+
+1. **REST API Implementation**: The Node.js Express server exposes endpoints that conform to the Apache Iceberg REST Catalog API, including:
+
+- Configuration details via `/v1/config`
+- Namespace listings via `/v1/namespaces`
+- Table listings within namespaces via `/v1/namespaces/{namespace}/tables`
+- Detailed table metadata via `/v1/namespaces/{namespace}/tables/{table}`
+
+2. **Metadata Management**: The server provides standardized Iceberg metadata for tables stored in S3, allowing Data Cloud to understand:
+
+- Table schemas and data types
+- File locations in S3
+- Table partitioning information
+- Schema version history
+
+3. **Zero Copy Architecture**: Instead of importing data into Data Cloud, the connector enables direct reading from S3:
+
+- Data Cloud queries the connector API for table metadata
+- Using this metadata, Data Cloud reads Parquet files directly from S3
+- Changes to S3 data are immediately visible to Data Cloud queries
+
+4. Deployment Flow:
+
+- Deploy the connector as a Heroku app
+- Configure the Apache Iceberg connector in Data Cloud
+- Point Data Cloud to your Heroku app URL
+- Data Cloud can now query your S3 data using familiar SQL syntax
+
+This implementation allows you to leverage Data Cloud's powerful analytics capabilities while keeping your data in place on AWS S3, reducing data duplication, transfer costs, and synchronization complexity.
+
+> NOTE: This project follows the open source Apache Iceberg API [specifications](https://github.com/apache/iceberg/blob/7f3f450bbddf55bb383ff1409d6d0ca4557c9ffc/open-api/rest-catalog-open-api.yaml), however, for the sake of simplicity, not every route and response is implemented. Just a minimal amount to go through the Data Cloud configuration process.
+
 ## Project Structure
 
 ```
