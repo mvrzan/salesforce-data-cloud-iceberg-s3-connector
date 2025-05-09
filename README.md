@@ -146,6 +146,37 @@ To run this application locally, you will need the following:
 
 ### Local environment configuration
 
+The first step is to clone the repository and install the project dependencies via a terminal interface by running the `npm install` in the `server` folder:
+
+```
+cd salesforce-data-cloud-iceberg-s3-connector/server
+npm install
+```
+
+The second step is to create a `.env` file in the `server` folder. Find the `.env.example` file, copy it and rename it to `.env`.
+
+```
+cd salesforce-data-cloud-iceberg-s3-connector/server
+cp .env.example .env
+```
+
+Edit the newly created `.env` files and update the variables with your account specific information.
+
+```
+# Heroku integration details
+APP_PORT=3000
+CLIENT_ACCESS_TOKEN=supersecrettoken
+S3_BUCKET=
+```
+
+Start the development server
+
+```
+npm run dev
+```
+
+Once all of this is done, your server will be available at http://localhost:3000
+
 ## Deployment
 
 Once you are happy with your application, you can deploy it to Heroku!
