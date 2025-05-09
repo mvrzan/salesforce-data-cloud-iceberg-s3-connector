@@ -25,8 +25,6 @@ Learn how you can leverage Heroku AppLink with a Node.js Express server to expos
   - [Setup](#setup)
     - [Local environment configuration](#local-environment-configuration)
   - [Deployment](#deployment)
-  - [Troubleshooting](#troubleshooting)
-    - [Common Issues](#common-issues)
 - [License](#license)
 - [Disclaimer](#disclaimer)
 
@@ -184,10 +182,6 @@ Once all of this is done, your server will be available at http://localhost:3000
 Once you are happy with your application, you can deploy it to Heroku!
 
 To deploy the application to Heroku, please follow the [official instructions](https://devcenter.heroku.com/articles/git).
-
-## Troubleshooting
-
-### Common Issues
 
 # License
 
