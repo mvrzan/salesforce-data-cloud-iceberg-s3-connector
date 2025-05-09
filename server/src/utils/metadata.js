@@ -267,7 +267,6 @@ export const customMetadata = (namespacesName, tableSchemas, tableName) => {
     metadata: {
       "format-version": 2,
       "table-uuid": "sample-table-uuid-123456789",
-      //   location: `s3://mvrzan/Database_namespace_one/Database_namespace_one/users`,
       location: tablePath,
       "last-sequence-number": sequenceNumber,
       "last-updated-ms": currentTime,
