@@ -262,15 +262,13 @@ export const customMetadata = (namespacesName, tableSchemas, tableName) => {
   const schemaId = schema["schema-id"] || 0;
   const tablePath = `s3://${process.env.S3_BUCKET}/${namespacesName}/${tableName}`;
 
-  console.log("tablePath", tablePath);
-
   return {
-    "metadata-location": "s3://mvrzan/Database_namespace_one/Database_namespace_one.db/users/metadata/v1.metadata.json",
+    "metadata-location": `${tablePath}/metadata/v1.metadata.json`,
     metadata: {
       "format-version": 2,
       "table-uuid": "sample-table-uuid-123456789",
       //   location: `s3://mvrzan/Database_namespace_one/Database_namespace_one/users`,
-      location: `s3://mvrzan/Database_namespace_one/Database_namespace_one.db/users`,
+      location: tablePath,
       "last-sequence-number": sequenceNumber,
       "last-updated-ms": currentTime,
       "last-column-id": 5,
@@ -304,7 +302,7 @@ export const customMetadata = (namespacesName, tableSchemas, tableName) => {
           "parent-snapshot-id": -1,
           "timestamp-ms": currentTime,
           "schema-id": 0,
-          "manifest-list": `s3://${process.env.S3_BUCKET}/Database_namespace_one/Database_namespace_one.db/users/metadata/snap-12345678901234-1.avro`,
+          "manifest-list": `${tablePath}/metadata/snap-12345678901234-1.avro`,
         },
       ],
       "snapshot-log": [
@@ -316,7 +314,7 @@ export const customMetadata = (namespacesName, tableSchemas, tableName) => {
       "metadata-log": [
         {
           "timestamp-ms": currentTime,
-          "metadata-file": `s3://${process.env.S3_BUCKET}/Database_namespace_one/Database_namespace_one.db/users/metadata/v1.metadata.json`,
+          "metadata-file": `${tablePath}/metadata/v1.metadata.json`,
         },
       ],
     },
