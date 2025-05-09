@@ -177,6 +177,8 @@ npm run dev
 
 Once all of this is done, your server will be available at http://localhost:3000
 
+> NOTE: If you want to deploy this application to Heroku, you will have to create all of the above variables as Heroku environment variables. This can be done via the [command line or the Heroku Dashboard UI](https://devcenter.heroku.com/articles/config-vars).
+
 ## Deployment
 
 Once you are happy with your application, you can deploy it to Heroku!
