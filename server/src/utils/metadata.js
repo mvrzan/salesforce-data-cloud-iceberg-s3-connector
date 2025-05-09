@@ -302,6 +302,18 @@ export const customMetadata = (namespacesName, tableSchemas, tableName) => {
           "timestamp-ms": currentTime,
           "schema-id": 0,
           "manifest-list": `${tablePath}/metadata/snap-12345678901234-1.avro`,
+          summary: {
+            operation: "append",
+            "total-records": "10",
+            "total-files-size": "1024",
+            "total-data-files": "1",
+            "snapshot-id": snapshotId.toString(),
+            "total-delete-files": "0",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0",
+            "added-data-files": "1",
+            "added-records": "10",
+          },
         },
       ],
       "snapshot-log": [
@@ -318,17 +330,22 @@ export const customMetadata = (namespacesName, tableSchemas, tableName) => {
       ],
     },
     config: {
+      token: `Bearer ${process.env.CLIENT_ACCESS_TOKEN}`,
       "client.region": process.env.S3_AWS_REGION,
       "s3.access-key-id": process.env.S3_ACCESS_KEY,
       "s3.secret-access-key": process.env.S3_SECRET_KEY,
+      "s3.remote-signing-enabled": "true",
+      "s3.cross-region-access-enabled": "true",
     },
     "storage-credentials": [
       {
-        prefix: `s3://${process.env.S3_BUCKET}`,
+        prefix: `s3://${process.env.S3_BUCKET}/`,
         config: {
           "client.region": process.env.S3_AWS_REGION,
           "s3.access-key-id": process.env.S3_ACCESS_KEY,
           "s3.secret-access-key": process.env.S3_SECRET_KEY,
+          "s3.remote-signing-enabled": "true",
+          "s3.cross-region-access-enabled": "true",
         },
       },
     ],
