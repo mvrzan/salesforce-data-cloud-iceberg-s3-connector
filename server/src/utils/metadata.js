@@ -260,7 +260,9 @@ export const customMetadata = (namespacesName, tableSchemas, tableName) => {
   const currentTime = Date.now();
   const snapshotId = 12345678901234;
   const schemaId = schema["schema-id"] || 0;
-  const tablePath = `s3://${process.env.S3_BUCKET}/Database_namespace_one/${tableName}`;
+  const tablePath = `s3://${process.env.S3_BUCKET}/${namespacesName}/${tableName}`;
+
+  console.log("tablePath", tablePath);
 
   return {
     "metadata-location": "s3://mvrzan/Database_namespace_one/Database_namespace_one.db/users/metadata/v1.metadata.json",
@@ -302,7 +304,7 @@ export const customMetadata = (namespacesName, tableSchemas, tableName) => {
           "parent-snapshot-id": -1,
           "timestamp-ms": currentTime,
           "schema-id": 0,
-          "manifest-list": `s3://mvrzan/Database_namespace_one/Database_namespace_one.db/users/metadata/snap-12345678901234-1.avro`,
+          "manifest-list": `s3://${process.env.S3_BUCKET}/Database_namespace_one/Database_namespace_one.db/users/metadata/snap-12345678901234-1.avro`,
         },
       ],
       "snapshot-log": [
@@ -314,22 +316,22 @@ export const customMetadata = (namespacesName, tableSchemas, tableName) => {
       "metadata-log": [
         {
           "timestamp-ms": currentTime,
-          "metadata-file": `s3://mvrzan/Database_namespace_one/Database_namespace_one.db/users/metadata/v1.metadata.json`,
+          "metadata-file": `s3://${process.env.S3_BUCKET}/Database_namespace_one/Database_namespace_one.db/users/metadata/v1.metadata.json`,
         },
       ],
     },
     config: {
-      "client.region": "us-east-1",
-      "s3.access-key-id": "AKIAUAYFBJYNPUMQN5US",
-      "s3.secret-access-key": "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",
+      "client.region": process.env.S3_AWS_REGION,
+      "s3.access-key-id": process.env.S3_ACCESS_KEY,
+      "s3.secret-access-key": process.env.S3_SECRET_KEY,
     },
     "storage-credentials": [
       {
-        prefix: "s3://mvrzan",
+        prefix: `s3://${process.env.S3_BUCKET}`,
         config: {
-          "client.region": "us-east-1",
-          "s3.access-key-id": "AKIAUAYFBJYNPUMQN5US",
-          "s3.secret-access-key": "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",
+          "client.region": process.env.S3_AWS_REGION,
+          "s3.access-key-id": process.env.S3_ACCESS_KEY,
+          "s3.secret-access-key": process.env.S3_SECRET_KEY,
         },
       },
     ],
