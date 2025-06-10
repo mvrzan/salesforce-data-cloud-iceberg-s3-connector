@@ -6,7 +6,7 @@
 
 # Data Cloud Apache Iceberg Connector with S3
 
-Learn how you can leverage Heroku AppLink with a Node.js Express server to exposes your Heroku app as API services in Salesforce.
+Learn how you can leverage your Iceberg Catalog with Data Cloud's Iceberg connector.
 
 > **Disclaimer:** At the time of publishing this repository, the official [Data Cloud Apache Iceberg](https://developer.salesforce.com/docs/data/data-cloud-int/guide/c360-a-apacheiceberg-connector.html) connector was in beta
 
