@@ -33,15 +33,15 @@ Learn how you can leverage your Iceberg Catalog with Data Cloud's Iceberg connec
 
 ## What Does It Do?
 
-The Salesforce Data Cloud [Iceberg S3 Connector](https://developer.salesforce.com/docs/data/data-cloud-int/guide/c360-a-apacheiceberg-connector.html) facilitates seamless integration between Salesforce Data Cloud and AWS S3, utilizing Apache Iceberg's table format capabilities. This connector enables:
+The Salesforce Data Cloud [Iceberg Connector](https://developer.salesforce.com/docs/data/data-cloud-int/guide/c360-a-apacheiceberg-connector.html) facilitates seamless integration between Salesforce Data Cloud and AWS S3 or Azure Blob Storage by utilizing Apache Iceberg's table format capabilities. This connector enables:
 
-- **Data Extraction**: Data Cloud to read data directly from an S3 bucket without copying data to Data Cloud (Zero Copy)
-- **S3 Storage Integration**: Read parquet files directly from AWS S3
+- **Data Extraction**: Data Cloud to read data directly from an S3 bucket or Azure Blob Storage without copying data to Data Cloud (Zero Copy)
+- **S3 Storage Integration**: Read parquet files directly from AWS S3 or Azure Blob Storage
 - **Schema Evolution**: Manages schema changes and data versioning through Iceberg's native capabilities
 
 ## How does it work?
 
-The Salesforce Data Cloud Iceberg S3 Connector functions as a REST API server that implements the Apache Iceberg REST Catalog API specification, acting as an intermediary between Salesforce Data Cloud and your AWS S3 storage:
+The Salesforce Data Cloud Iceberg Connector functions as a REST API server that implements the Apache Iceberg REST Catalog API specification, acting as an intermediary between Salesforce Data Cloud and your AWS S3 storage:
 
 1. **REST API Implementation**: The Node.js Express server exposes endpoints that conform to the Apache Iceberg REST Catalog API, including:
 
