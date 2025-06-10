@@ -6,7 +6,7 @@ const middleware = (req, res, next) => {
   const authHeader = req.headers.authorization;
   const token = authHeader && authHeader.split(" ")[1];
 
-  if (token === null) {
+  if (!token) {
     console.log(`${getCurrentTimestamp()} - 🚨 middleware - Unauthorized: No token provided!`);
     return res.status(401).send({
       error: "Unauthorized: No token provided",
