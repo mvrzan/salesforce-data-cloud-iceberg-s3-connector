@@ -293,7 +293,7 @@ export const customMetadata = (namespacesName, tableSchemas, tableName) => {
         "write.format.default": "parquet",
         "write.parquet.compression-codec": "snappy",
       },
-      "current-snapshot-id": snapshotId,
+      "current-snapshot-id": -1,
       snapshots: [
         {
           "sequence-number": sequenceNumber,
