@@ -41,7 +41,7 @@ The Salesforce Data Cloud [Iceberg Connector](https://developer.salesforce.com/d
 
 ## How does it work?
 
-The Salesforce Data Cloud Iceberg Connector functions as a REST API server that implements the Apache Iceberg REST Catalog API specification, acting as an intermediary between Salesforce Data Cloud and your AWS S3 storage:
+The Salesforce Data Cloud Iceberg Connector functions as a REST API server that implements the Apache Iceberg REST Catalog API specification, acting as an intermediary between Salesforce Data Cloud and your cloud storage:
 
 1. **REST API Implementation**: The Node.js Express server exposes endpoints that conform to the Apache Iceberg REST Catalog API, including:
 
