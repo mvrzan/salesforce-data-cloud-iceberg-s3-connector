@@ -13,7 +13,7 @@
     "url": "git+https://github.com/mvrzan/salesforce-data-cloud-iceberg-s3-connector.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Matija Vrzan",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/mvrzan/salesforce-data-cloud-iceberg-s3-connector/issues"
