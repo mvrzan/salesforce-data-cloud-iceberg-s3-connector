@@ -31,17 +31,22 @@ Learn how you can leverage your Iceberg Catalog with Data Cloud's Iceberg connec
 
 ---
 
+TODO:
+
+- [ ] update code logic to make paths for S3 and Azure Blob Storage dynamic
+
 ## What Does It Do?
 
 The Salesforce Data Cloud [Iceberg Connector](https://developer.salesforce.com/docs/data/data-cloud-int/guide/c360-a-apacheiceberg-connector.html) facilitates seamless integration between Salesforce Data Cloud and AWS S3 or Azure Blob Storage by utilizing Apache Iceberg's table format capabilities. This connector enables:
 
 - **Data Extraction**: Data Cloud to read data directly from an S3 bucket or Azure Blob Storage without copying data to Data Cloud (Zero Copy)
-- **S3 Storage Integration**: Read parquet files directly from AWS S3 or Azure Blob Storage
+- **S3 Storage Integration**: Read parquet files directly from AWS S3
+- **Azure Blob**: Read parquet files directly from Azure Blob Storage
 - **Schema Evolution**: Manages schema changes and data versioning through Iceberg's native capabilities
 
 ## How does it work?
 
-The Salesforce Data Cloud Iceberg Connector functions as a REST API server that implements the Apache Iceberg REST Catalog API specification, acting as an intermediary between Salesforce Data Cloud and your cloud storage:
+This project functions as a REST API server that implements the Apache Iceberg REST Catalog API specification, acting as a metadata provider between Salesforce Data Cloud and your cloud storage:
 
 1. **REST API Implementation**: The Node.js Express server exposes endpoints that conform to the Apache Iceberg REST Catalog API, including:
 
@@ -50,14 +55,14 @@ The Salesforce Data Cloud Iceberg Connector functions as a REST API server that 
 - Table listings within namespaces via `/v1/namespaces/{namespace}/tables`
 - Detailed table metadata via `/v1/namespaces/{namespace}/tables/{table}`
 
-2. **Metadata Management**: The server provides standardized Iceberg metadata for tables stored in S3, allowing Data Cloud to understand:
+2. **Metadata Management**: The server provides standardized Iceberg metadata for tables stored in S3 or Azure Blob Storage, allowing Data Cloud to understand:
 
 - Table schemas and data types
-- File locations in S3
+- File locations in S3 or Azure Blob Storage
 - Table partitioning information
 - Schema version history
 
-3. **Zero Copy Architecture**: Instead of importing data into Data Cloud, the connector enables direct reading from S3:
+3. **Zero Copy Architecture**: Instead of importing data into Data Cloud, the connector enables direct reading from the cloud storage:
 
 - Data Cloud queries the connector API for table metadata
 - Using this metadata, Data Cloud reads Parquet files directly from S3
