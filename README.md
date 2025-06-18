@@ -6,7 +6,7 @@
 
 # Data Cloud Apache Iceberg Connector with S3
 
-Learn how you can leverage your Iceberg Catalog with Data Cloud's Iceberg connector.
+Learn how you can leverage your Iceberg Catalog with Data Cloud's Iceberg connector to utilize [File Federation](https://help.salesforce.com/s/articleView?id=data.c360_a_file_federation.htm&type=5) with Data Cloud.
 
 > **Disclaimer:** At the time of publishing this repository, the official [Data Cloud Apache Iceberg](https://developer.salesforce.com/docs/data/data-cloud-int/guide/c360-a-apacheiceberg-connector.html) connector was in beta
 
@@ -65,17 +65,17 @@ This project functions as a REST API server that implements the Apache Iceberg R
 3. **Zero Copy Architecture**: Instead of importing data into Data Cloud, the connector enables direct reading from the cloud storage:
 
 - Data Cloud queries the connector API for table metadata
-- Using this metadata, Data Cloud reads Parquet files directly from S3
-- Changes to S3 data are immediately visible to Data Cloud queries
+- Using this metadata, Data Cloud reads Parquet files directly from the cloud storage
+- Changes to the data are immediately visible to Data Cloud queries
 
 4. Deployment Flow:
 
 - Deploy the connector as a Heroku app
 - Configure the Apache Iceberg connector in Data Cloud
 - Point Data Cloud to your Heroku app URL
-- Data Cloud can now query your S3 data using familiar SQL syntax
+- Data Cloud can now query your cloud storage data
 
-This implementation allows you to leverage Data Cloud's powerful analytics capabilities while keeping your data in place on AWS S3, reducing data duplication, transfer costs, and synchronization complexity.
+This implementation allows you to leverage Data Cloud's powerful analytics capabilities while keeping your data in place on the cloud, reducing data duplication, transfer costs, and synchronization complexity.
 
 > NOTE: This project follows the open source Apache Iceberg API [specifications](https://github.com/apache/iceberg/blob/7f3f450bbddf55bb383ff1409d6d0ca4557c9ffc/open-api/rest-catalog-open-api.yaml), however, for the sake of simplicity, not every route and response is implemented. Just a minimal amount to go through the Data Cloud configuration process.
 
