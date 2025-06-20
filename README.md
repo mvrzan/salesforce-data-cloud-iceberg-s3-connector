@@ -178,6 +178,8 @@ S3_ACCESS_KEY=
 S3_SECRET_KEY=
 ```
 
+> NOTE: This example uses S3 storage
+
 Start the development server
 
 ```
