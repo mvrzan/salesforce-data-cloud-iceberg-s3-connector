@@ -6,6 +6,8 @@
 
 # Data Cloud Apache Iceberg Connector with S3
 
+🚧 THIS REPOSITORY IS STILL UNDER CONSTRUCTION 🚧
+
 Learn how you can leverage your Iceberg Catalog with Data Cloud's Iceberg connector to utilize [File Federation](https://help.salesforce.com/s/articleView?id=data.c360_a_file_federation.htm&type=5) with Data Cloud.
 
 > **Disclaimer:** At the time of publishing this repository, the official [Data Cloud Apache Iceberg](https://developer.salesforce.com/docs/data/data-cloud-int/guide/c360-a-apacheiceberg-connector.html) connector was in beta
