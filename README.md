@@ -6,7 +6,13 @@
 
 # Data Cloud Apache Iceberg Connector with S3
 
-🚧 THIS REPOSITORY IS STILL UNDER CONSTRUCTION 🚧
+🚧 THIS REPOSITORY IS UNDER CONSTRUCTION 🚧
+
+TODO:
+
+- [ ] update code logic to make paths for S3 and Azure Blob Storage dynamic
+
+---
 
 Learn how you can leverage your Iceberg Catalog with Data Cloud's Iceberg connector to utilize [File Federation](https://help.salesforce.com/s/articleView?id=data.c360_a_file_federation.htm&type=5) with Data Cloud.
 
@@ -33,10 +39,6 @@ Learn how you can leverage your Iceberg Catalog with Data Cloud's Iceberg connec
 
 ---
 
-TODO:
-
-- [ ] update code logic to make paths for S3 and Azure Blob Storage dynamic
-
 ## What Does It Do?
 
 The Salesforce Data Cloud [Iceberg Connector](https://developer.salesforce.com/docs/data/data-cloud-int/guide/c360-a-apacheiceberg-connector.html) facilitates seamless integration between Salesforce Data Cloud and AWS S3 or Azure Blob Storage by utilizing Apache Iceberg's table format capabilities. This connector enables:
@@ -45,6 +47,8 @@ The Salesforce Data Cloud [Iceberg Connector](https://developer.salesforce.com/d
 - **S3 Storage Integration**: Read parquet files directly from AWS S3
 - **Azure Blob**: Read parquet files directly from Azure Blob Storage
 - **Schema Evolution**: Manages schema changes and data versioning through Iceberg's native capabilities
+
+> Note: This project does not implement all of the [Apache Iceberg API specifications](https://iceberg.apache.org/spec/). It is only using a few routes to demonstrate the functionality of a metadata catalog and enable the Data Cloud integration.
 
 ## How does it work?
 
@@ -70,14 +74,15 @@ This project functions as a REST API server that implements the Apache Iceberg R
 - Using this metadata, Data Cloud reads Parquet files directly from the cloud storage
 - Changes to the data are immediately visible to Data Cloud queries
 
-4. Deployment Flow:
+4. **Deployment Flow**:
 
 - Deploy the connector as a Heroku app
 - Configure the Apache Iceberg connector in Data Cloud
 - Point Data Cloud to your Heroku app URL
 - Data Cloud can now query your cloud storage data
+- Express middleware validates the incoming authorization token
 
-This implementation allows you to leverage Data Cloud's powerful analytics capabilities while keeping your data in place on the cloud, reducing data duplication, transfer costs, and synchronization complexity.
+This implementation allows you to leverage Data Cloud's powerful capabilities while keeping your data in place on the cloud, reducing data duplication, transfer costs, and synchronization complexity.
 
 > NOTE: This project follows the open source Apache Iceberg API [specifications](https://github.com/apache/iceberg/blob/7f3f450bbddf55bb383ff1409d6d0ca4557c9ffc/open-api/rest-catalog-open-api.yaml), however, for the sake of simplicity, not every route and response is implemented. Just a minimal amount to go through the Data Cloud configuration process.
 
