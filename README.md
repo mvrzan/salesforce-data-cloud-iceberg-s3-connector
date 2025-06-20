@@ -8,10 +8,6 @@
 
 🚧 THIS REPOSITORY IS UNDER CONSTRUCTION 🚧
 
-TODO:
-
-- [ ] update code logic to make paths for S3 and Azure Blob Storage dynamic
-
 ---
 
 Learn how you can leverage your Iceberg Catalog with Data Cloud's Iceberg connector to utilize [File Federation](https://help.salesforce.com/s/articleView?id=data.c360_a_file_federation.htm&type=5) with Data Cloud.
