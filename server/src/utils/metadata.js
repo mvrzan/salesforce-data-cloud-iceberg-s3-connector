@@ -330,7 +330,6 @@ export const customMetadata = (namespacesName, tableSchemas, tableName) => {
       ],
     },
     config: {
-      token: `Bearer ${process.env.CLIENT_ACCESS_TOKEN}`,
       "client.region": process.env.S3_AWS_REGION,
       "s3.access-key-id": process.env.S3_ACCESS_KEY,
       "s3.secret-access-key": process.env.S3_SECRET_KEY,
