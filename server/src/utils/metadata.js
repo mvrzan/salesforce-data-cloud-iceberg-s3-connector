@@ -315,7 +315,7 @@ export const customMetadata = (namespacesName, tableSchemas, tableName) => {
         {
           "sequence-number": sequenceNumber,
           "snapshot-id": snapshotId,
-          "parent-snapshot-id": -1,
+          "parent-snapshot-id": snapshotId,
           "timestamp-ms": currentTime,
           "schema-id": 0,
           "manifest-list": `${tablePath}/metadata/snap-12345678901234-1.avro`,
