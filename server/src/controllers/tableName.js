@@ -53,31 +53,9 @@ const tableName = (req, res) => {
 
     const customResponse = customMetadata(namespacesName, tableSchemas, tableName);
 
-    // Add schema information as response headers with parsed values
-    res.set({
-      "X-Database-Name": databaseName,
-      "X-Schema-Name": schemaName,
-      "X-Table-Name": tableName,
-      // Add access control headers
-      "X-User-Permissions": "read,write",
-      "X-Schema-Permissions": "read,write",
-      "X-Database-Permissions": "read,write",
-      // CORS headers for cross-origin access
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-      "Access-Control-Allow-Headers": "Authorization, Content-Type, X-Requested-With",
-    });
-
     console.log(
       `${getCurrentTimestamp()} - ✅ tableName - Metadata returned for ${tableName} in ${databaseName}.${schemaName}`
     );
-
-    console.log(
-      `${getCurrentTimestamp()} - 🔐 tableName - Authorization header: ${
-        req.headers.authorization ? "Present" : "Missing"
-      }`
-    );
-    console.log(`${getCurrentTimestamp()} - 🔐 tableName - User agent: ${req.headers["user-agent"] || "Unknown"}`);
 
     res.status(200).send(customResponse);
   } catch (error) {
