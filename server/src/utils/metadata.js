@@ -277,7 +277,7 @@ export const customMetadata = (namespacesName, tableSchemas, tableName) => {
   }
 
   // Use a clean path structure: bucket/database/schema/table
-  const tablePath = `s3://${process.env.S3_BUCKET}/${databaseName}${schemaName}/${tableName}`;
+  const tablePath = `s3://${process.env.S3_BUCKET}/${databaseName}/${schemaName}/${tableName}`;
 
   return {
     "metadata-location": `${tablePath}/metadata/v1.metadata.json`,
