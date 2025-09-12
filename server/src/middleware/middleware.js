@@ -21,14 +21,7 @@ const middleware = (req, res, next) => {
     });
   }
 
-  if (req.url.includes("%1F")) {
-    const cleanedUrl = req.url.replace(/%1F/g, "");
-
-    req.url = cleanedUrl;
-    req.originalUrl = cleanedUrl;
-
-    console.log(`${getCurrentTimestamp()} - 🧹 middleware - Cleaned URL: ${cleanedUrl}`);
-  }
+  console.log(`${getCurrentTimestamp()} - ✅ middleware - Preserving namespace separators in URL: ${req.url}`);
 
   next();
 };
