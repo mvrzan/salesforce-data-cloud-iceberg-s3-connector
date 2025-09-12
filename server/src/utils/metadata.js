@@ -256,11 +256,28 @@ export const inventoryTable = {
 
 export const customMetadata = (namespacesName, tableSchemas, tableName) => {
   const schema = tableSchemas[tableName];
-  const sequenceNumber = 34;
+  const sequenceNumber = 1;
   const currentTime = Date.now();
-  const snapshotId = 12345678901234;
+  const snapshotId = 1757622194193539; // Use the real snapshot ID from our generated files
   const schemaId = schema["schema-id"] || 0;
-  const tablePath = `s3://${process.env.S3_BUCKET}/${namespacesName}/${tableName}`;
+
+  // Parse namespace to get database and schema names
+  let databaseName = "";
+  let schemaName = "public";
+
+  const decodedNamespace = decodeURIComponent(namespacesName);
+  if (decodedNamespace.includes(String.fromCharCode(31))) {
+    const parts = decodedNamespace.split(String.fromCharCode(31));
+    databaseName = parts[0];
+    schemaName = parts[1] || "public";
+  } else if (decodedNamespace.includes("Database_namespace_one")) {
+    databaseName = "Database_namespace_one";
+  } else if (decodedNamespace.includes("Database_namespace_two")) {
+    databaseName = "Database_namespace_two";
+  }
+
+  // Use a clean path structure: bucket/database/schema/table
+  const tablePath = `s3://${process.env.S3_BUCKET}/${databaseName}/${schemaName}/${tableName}`;
 
   return {
     "metadata-location": `${tablePath}/metadata/v1.metadata.json`,
