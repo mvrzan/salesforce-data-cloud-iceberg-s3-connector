@@ -277,7 +277,7 @@ export const customMetadata = (namespacesName, tableSchemas, tableName) => {
   }
 
   // Use a clean path structure: bucket/database/schema/table
-  const tablePath = `s3://${process.env.S3_BUCKET}/${databaseName}/${schemaName}/${tableName}`;
+  const tablePath = `s3://${process.env.S3_BUCKET}/${databaseName}${schemaName}/${tableName}`;
 
   return {
     "metadata-location": `${tablePath}/metadata/v1.metadata.json`,
@@ -310,15 +310,15 @@ export const customMetadata = (namespacesName, tableSchemas, tableName) => {
         "write.format.default": "parquet",
         "write.parquet.compression-codec": "snappy",
       },
-      "current-snapshot-id": -1,
+      "current-snapshot-id": snapshotId,
       snapshots: [
         {
           "sequence-number": sequenceNumber,
           "snapshot-id": snapshotId,
-          "parent-snapshot-id": snapshotId,
+          "parent-snapshot-id": -1,
           "timestamp-ms": currentTime,
           "schema-id": 0,
-          "manifest-list": `${tablePath}/metadata/snap-12345678901234-1.avro`,
+          "manifest-list": `${tablePath}/metadata/snap-${snapshotId}-1.avro`,
           summary: {
             operation: "append",
             "total-records": "10",
