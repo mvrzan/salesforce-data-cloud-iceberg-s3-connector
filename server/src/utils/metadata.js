@@ -93,10 +93,6 @@ export const getTableMetadata = (namespaceParts, tableName) => {
   const snapshotId = 1757622194193539;
   const schemaId = schema["schema-id"] || 0;
 
-  // Build table path - match your actual S3 structure
-  const databaseName = namespaceParts[0];
-  const schemaName = namespaceParts[1] || "public";
-
   // Map table names to your actual S3 paths
   const tablePathMapping = {
     "Database_namespace_one.users": "users_iceberg_table",
