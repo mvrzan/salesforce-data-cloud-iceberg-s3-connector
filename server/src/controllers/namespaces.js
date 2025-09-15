@@ -1,39 +1,30 @@
 import { getCurrentTimestamp } from "../utils/loggingUtil.js";
-import { namespacesInfo } from "../utils/metadata.js";
+import { getNamespaces } from "../utils/metadata.js";
 
 const namespaces = (req, res) => {
   try {
     console.log(`${getCurrentTimestamp()} - 📥 namespaces - Incoming request!`);
 
     const parent = req.query.parent;
-    console.log(`${getCurrentTimestamp()} - 📥 namespaces - Parent parameter: "${parent}"`);
+    const responseNamespaces = getNamespaces(parent);
 
-    if (parent === "Database_namespace_one") {
-      // Return schemas within Database_namespace_one
-      const schemasInDb = {
-        namespaces: [["Database_namespace_one", "public"]],
-      };
-      console.log(`${getCurrentTimestamp()} - ✅ namespaces - Schemas for Database_namespace_one provided!`);
-      res.status(200).send(schemasInDb);
-    } else if (parent === "Database_namespace_two") {
-      // Return schemas within Database_namespace_two
-      const schemasInDb = {
-        namespaces: [["Database_namespace_two", "public"]],
-      };
-      console.log(`${getCurrentTimestamp()} - ✅ namespaces - Schemas for Database_namespace_two provided!`);
-      res.status(200).send(schemasInDb);
-    } else if (!parent) {
-      // Return top-level databases when no parent specified
-      console.log(`${getCurrentTimestamp()} - ✅ namespaces - Top-level databases provided!`);
-      res.status(200).send(namespacesInfo);
-    } else {
-      // Unknown parent
-      console.log(`${getCurrentTimestamp()} - ⚠️ namespaces - Unknown parent: ${parent}`);
-      res.status(200).send({ namespaces: [] });
-    }
+    const response = {
+      namespaces: responseNamespaces,
+    };
+
+    res.status(200).json(response);
   } catch (error) {
-    res.status(500).send(error);
     console.error(`${getCurrentTimestamp()} ❌ - namespaces - Error occurred: ${error.message}`);
+
+    const errorResponse = {
+      error: {
+        message: error.message || "Internal server error",
+        type: "InternalServerError",
+        code: 500,
+      },
+    };
+
+    res.status(500).json(errorResponse);
   }
 };
 
