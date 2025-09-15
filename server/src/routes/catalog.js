@@ -12,6 +12,6 @@ catalogRoutes.get("/v1/config", middleware, config);
 catalogRoutes.get("/v1/namespaces", middleware, namespaces);
 catalogRoutes.get("/v1/namespaces/:namespace", middleware, namespaceDetails);
 catalogRoutes.get("/v1/namespaces/:namespace/tables", middleware, namespaceTables);
-catalogRoutes.get("/v1/namespaces/:namespacesName/tables/:tableName", middleware, tableName);
+catalogRoutes.get("/v1/namespaces/:namespace/tables/:table", middleware, tableName);
 
 export default catalogRoutes;
