@@ -26,6 +26,44 @@ export const getNamespaces = (parent) => {
   return [];
 };
 
+// Function to get tables in a specific namespace
+export const getTablesInNamespace = (namespaceParts, pageToken, pageSize) => {
+  const namespaceKey = namespaceParts.join(".");
+
+  // Define table mapping for each namespace
+  const tableMapping = {
+    Database_namespace_one: [{ name: "users" }, { name: "user_activities" }],
+    "Database_namespace_one.public": [{ name: "users" }, { name: "user_activities" }],
+    Database_namespace_two: [{ name: "products" }, { name: "inventory" }],
+    "Database_namespace_two.public": [{ name: "products" }, { name: "inventory" }],
+  };
+
+  // Check if namespace exists
+  if (!tableMapping[namespaceKey]) {
+    return { found: false, tables: [] };
+  }
+
+  const allTables = tableMapping[namespaceKey];
+
+  // Simple pagination implementation
+  if (pageSize && !isNaN(pageSize)) {
+    const size = parseInt(pageSize);
+    const startIndex = pageToken ? parseInt(pageToken) : 0;
+    const endIndex = startIndex + size;
+
+    const paginatedTables = allTables.slice(startIndex, endIndex);
+    const hasMore = endIndex < allTables.length;
+
+    return {
+      found: true,
+      tables: paginatedTables,
+      nextPageToken: hasMore ? endIndex.toString() : null,
+    };
+  }
+
+  return { found: true, tables: allTables };
+};
+
 export const NamespaceOneObjects = {
   identifiers: [{ name: "users" }, { name: "user_activities" }],
 };
