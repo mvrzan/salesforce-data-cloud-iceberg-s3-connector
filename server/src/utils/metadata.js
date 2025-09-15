@@ -2,6 +2,30 @@ export const namespacesInfo = {
   namespaces: [["Database_namespace_one"], ["Database_namespace_two"]],
 };
 
+export const namespaceHierarchy = {
+  topLevel: [["Database_namespace_one"], ["Database_namespace_two"]],
+
+  children: {
+    Database_namespace_one: [["Database_namespace_one", "public"]],
+    Database_namespace_two: [["Database_namespace_two", "public"]],
+  },
+};
+
+export const getNamespaces = (parent) => {
+  if (!parent) {
+    return namespaceHierarchy.topLevel;
+  }
+
+  const parentParts = decodeURIComponent(parent).split("\x1F");
+
+  if (parentParts.length === 1) {
+    const parentKey = parentParts[0];
+    return namespaceHierarchy.children[parentKey] || [];
+  }
+
+  return [];
+};
+
 export const NamespaceOneObjects = {
   identifiers: [{ name: "users" }, { name: "user_activities" }],
 };
@@ -23,55 +47,30 @@ export const usersTable = {
       name: "Id",
       required: false,
       type: "string",
-      source_header: "ID",
-      field_label: "User ID",
-      field_api_name: "Id__c",
-      source_data_type: "VARCHAR",
-      inferred_data_type: "TEXT",
     },
     {
       id: 2,
       name: "first_name",
       required: false,
       type: "string",
-      source_header: "FIRST_NAME",
-      field_label: "User's first name",
-      field_api_name: "first_name__c",
-      source_data_type: "VARCHAR",
-      inferred_data_type: "TEXT",
     },
     {
       id: 3,
       name: "last_name",
       required: false,
       type: "string",
-      source_header: "LAST_NAME",
-      field_label: "User's last name",
-      field_api_name: "last_name__c",
-      source_data_type: "VARCHAR",
-      inferred_data_type: "TEXT",
     },
     {
       id: 4,
       name: "country",
       required: false,
       type: "string",
-      source_header: "COUNTRY",
-      field_label: "User's country",
-      field_api_name: "country__c",
-      source_data_type: "VARCHAR",
-      inferred_data_type: "TEXT",
     },
     {
       id: 5,
       name: "date_of_birth",
       required: false,
       type: "string",
-      source_header: "DATE_OF_BIRTH",
-      field_label: "User's Date of Birth",
-      field_api_name: "date_of_birth__c",
-      source_data_type: "VARCHAR",
-      inferred_data_type: "TEXT",
     },
   ],
 };
@@ -276,8 +275,10 @@ export const customMetadata = (namespacesName, tableSchemas, tableName) => {
     databaseName = "Database_namespace_two";
   }
 
-  // Use a clean path structure: bucket/database/schema/table
   const tablePath = `s3://${process.env.S3_BUCKET}/${databaseName}/${schemaName}/${tableName}`;
+
+  console.log("tablePath", tablePath);
+  console.log(`${tablePath}/metadata/snap-${snapshotId}-1.avro`);
 
   return {
     "metadata-location": `${tablePath}/metadata/v1.metadata.json`,
@@ -313,57 +314,27 @@ export const customMetadata = (namespacesName, tableSchemas, tableName) => {
       "current-snapshot-id": snapshotId,
       snapshots: [
         {
-          "sequence-number": sequenceNumber,
           "snapshot-id": snapshotId,
-          "parent-snapshot-id": -1,
-          "timestamp-ms": currentTime,
-          "schema-id": 0,
+          "timestamp-ms": 1757622194193,
           "manifest-list": `${tablePath}/metadata/snap-${snapshotId}-1.avro`,
           summary: {
             operation: "append",
-            "total-records": "10",
-            "total-files-size": "1024",
-            "total-data-files": "1",
-            "snapshot-id": snapshotId.toString(),
-            "total-delete-files": "0",
-            "total-position-deletes": "0",
-            "total-equality-deletes": "0",
-            "added-data-files": "1",
-            "added-records": "10",
           },
         },
       ],
-      "snapshot-log": [
-        {
-          "timestamp-ms": currentTime,
+      "snapshot-log": [],
+      "metadata-log": [],
+      refs: {
+        main: {
           "snapshot-id": snapshotId,
-        },
-      ],
-      "metadata-log": [
-        {
-          "timestamp-ms": currentTime,
-          "metadata-file": `${tablePath}/metadata/v1.metadata.json`,
-        },
-      ],
-    },
-    config: {
-      "client.region": process.env.S3_AWS_REGION,
-      "s3.access-key-id": process.env.S3_ACCESS_KEY,
-      "s3.secret-access-key": process.env.S3_SECRET_KEY,
-      "s3.remote-signing-enabled": "true",
-      "s3.cross-region-access-enabled": "true",
-    },
-    "storage-credentials": [
-      {
-        prefix: `s3://${process.env.S3_BUCKET}/`,
-        config: {
-          "client.region": process.env.S3_AWS_REGION,
-          "s3.access-key-id": process.env.S3_ACCESS_KEY,
-          "s3.secret-access-key": process.env.S3_SECRET_KEY,
-          "s3.remote-signing-enabled": "true",
-          "s3.cross-region-access-enabled": "true",
+          type: "branch",
         },
       },
-    ],
+    },
+    config: {
+      "client.region": process.env.AWS_REGION || "us-east-1",
+      "s3.access-key-id": process.env.AWS_ACCESS_KEY_ID || "",
+      "s3.secret-access-key": process.env.AWS_SECRET_ACCESS_KEY || "",
+    },
   };
 };
