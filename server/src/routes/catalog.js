@@ -9,7 +9,7 @@ const catalogRoutes = Router();
 
 catalogRoutes.get("/v1/config", middleware, config);
 catalogRoutes.get("/v1/namespaces", middleware, namespaces);
-catalogRoutes.get("/v1/namespaces/:namespaceTables/tables", middleware, namespaceTables);
+catalogRoutes.get("/v1/namespaces/:namespace/tables", middleware, namespaceTables);
 catalogRoutes.get("/v1/namespaces/:namespacesName/tables/:tableName", middleware, tableName);
 
 export default catalogRoutes;
