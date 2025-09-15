@@ -4,15 +4,16 @@ const config = (_req, res) => {
   try {
     console.log(`${getCurrentTimestamp()} - ⚙️ config - Incoming request!`);
 
-    const config = {
-      success: true,
+    const catalogConfig = {
+      defaults: {},
+      overrides: {},
     };
 
     console.log(`${getCurrentTimestamp()} - ✅ config - Configuration provided!`);
 
-    res.status(200).send(config);
+    res.status(200).json(catalogConfig);
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json({ error: error.message });
     console.error(`${getCurrentTimestamp()} ❌ - config - Error occurred: ${error.message}`);
   }
 };
