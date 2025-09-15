@@ -1,63 +1,77 @@
-import { getCurrentTimestamp } from "../utils/loggingUtil.js";
-import { NamespaceOneObjects, NamespaceTwoObjects, FallbackObjects } from "../utils/metadata.js";
+import { getTablesInNamespace } from "../utils/metadata.js";
 
+// Controller for GET /v1/namespaces/{namespace}/tables - Lists all tables in a namespace
 const namespaceTables = (req, res) => {
   try {
-    console.log(`${getCurrentTimestamp()} - 📈 namespaceTables - Incoming request!`);
+    const { namespace } = req.params;
 
-    const namespace = req.params.namespaceTables;
+    // Debug logging
+    console.log("Raw namespace param:", namespace);
 
-    console.log(`${getCurrentTimestamp()} - 📈 namespaceTables - Raw namespace: "${namespace}"`);
-
-    // Decode URL-encoded namespace
+    // Decode the URL-encoded namespace parameter
+    // Apache Iceberg uses unit separator (\x1F) to separate namespace parts
     const decodedNamespace = decodeURIComponent(namespace);
-    console.log(`${getCurrentTimestamp()} - 📈 namespaceTables - Decoded namespace: "${decodedNamespace}"`);
+    console.log("Decoded namespace:", decodedNamespace);
 
-    // Split on ASCII 31 character (represented as %1F in URL)
-    let databaseName = "";
-    let schemaName = "";
+    let namespaceParts;
 
-    if (decodedNamespace.includes(String.fromCharCode(31))) {
-      // Split on ASCII 31 separator
-      const parts = decodedNamespace.split(String.fromCharCode(31));
-      databaseName = parts[0];
-      schemaName = parts[1] || "";
-      console.log(
-        `${getCurrentTimestamp()} - 📈 namespaceTables - Parsed with ASCII 31: database="${databaseName}", schema="${schemaName}"`
-      );
+    // Try splitting on unit separator first
+    if (decodedNamespace.includes("\x1F")) {
+      namespaceParts = decodedNamespace.split("\x1F");
+      console.log("Split on unit separator (\\x1F)");
+    } else if (decodedNamespace.includes(".")) {
+      // Fallback to dot separator if no unit separator found
+      namespaceParts = decodedNamespace.split(".");
+      console.log("Split on dot separator (.)");
     } else {
-      // Fallback parsing for other formats
-      console.log(
-        `${getCurrentTimestamp()} - ⚠️ namespaceTables - No ASCII 31 separator found, attempting fallback parsing`
-      );
-
-      if (decodedNamespace.includes("Database_namespace_one")) {
-        databaseName = "Database_namespace_one";
-        schemaName = "public";
-      } else if (decodedNamespace.includes("Database_namespace_two")) {
-        databaseName = "Database_namespace_two";
-        schemaName = "public";
-      }
+      // Single part namespace
+      namespaceParts = [decodedNamespace];
+      console.log("Single part namespace");
     }
 
-    console.log(
-      `${getCurrentTimestamp()} - 📈 namespaceTables - Final parsed: database="${databaseName}", schema="${schemaName}"`
-    );
+    console.log("Namespace parts:", namespaceParts);
+    console.log("Namespace parts length:", namespaceParts.length);
 
-    // Return tables based on database
-    if (databaseName === "Database_namespace_one") {
-      console.log(`${getCurrentTimestamp()} - 📉 namespaceTables - Namespace ${namespace} objects provided!`);
-      return res.status(200).send(NamespaceOneObjects);
-    } else if (databaseName === "Database_namespace_two") {
-      console.log(`${getCurrentTimestamp()} - 📉 namespaceTables - Namespace ${namespace} objects provided!`);
-      return res.status(200).send(NamespaceTwoObjects);
-    } else {
-      console.log(`${getCurrentTimestamp()} - 📉 namespaceName - Default objects for ${namespace} provided!`);
-      return res.status(500).send(FallbackObjects);
+    // Get pagination parameters from query string (optional)
+    const pageToken = req.query["page-token"] || req.query.pageToken;
+    const pageSize = req.query["page-size"] || req.query.pageSize;
+
+    // Get tables for the namespace
+    const result = getTablesInNamespace(namespaceParts, pageToken, pageSize);
+
+    if (!result.found) {
+      return res.status(404).json({
+        error: {
+          message: `Namespace not found: ${namespaceParts.join(".")}`,
+          type: "NamespaceNotEmptyException",
+          code: 404,
+        },
+      });
     }
+
+    // Return Apache Iceberg ListTablesResponse format
+    const response = {
+      identifiers: result.tables.map((table) => ({
+        namespace: namespaceParts,
+        name: table.name,
+      })),
+    };
+
+    // Add pagination token if there are more results
+    if (result.nextPageToken) {
+      response["next-page-token"] = result.nextPageToken;
+    }
+
+    res.status(200).json(response);
   } catch (error) {
-    res.status(500).send(error);
-    console.error(`${getCurrentTimestamp()} ❌ - namespaceTables - Error occurred: ${error.message}`);
+    console.error("Error listing tables:", error);
+    res.status(500).json({
+      error: {
+        message: "Internal server error while listing tables",
+        type: "InternalServerError",
+        code: 500,
+      },
+    });
   }
 };
 
