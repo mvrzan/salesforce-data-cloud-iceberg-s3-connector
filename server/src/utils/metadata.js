@@ -64,6 +64,119 @@ export const getTablesInNamespace = (namespaceParts, pageToken, pageSize) => {
   return { found: true, tables: allTables };
 };
 
+// Function to get table metadata for a specific table
+export const getTableMetadata = (namespaceParts, tableName) => {
+  const namespaceKey = namespaceParts.join(".");
+
+  // Define table schemas mapping
+  const tableSchemas = {
+    "Database_namespace_one.users": usersTable,
+    "Database_namespace_one.user_activities": userActivities,
+    "Database_namespace_one.public.users": usersTable,
+    "Database_namespace_one.public.user_activities": userActivities,
+    "Database_namespace_two.products": productsTable,
+    "Database_namespace_two.inventory": inventoryTable,
+    "Database_namespace_two.public.products": productsTable,
+    "Database_namespace_two.public.inventory": inventoryTable,
+  };
+
+  const tableKey = `${namespaceKey}.${tableName}`;
+  const schema = tableSchemas[tableKey];
+
+  if (!schema) {
+    return { found: false };
+  }
+
+  // Generate table metadata following Apache Iceberg format
+  const sequenceNumber = 1;
+  const currentTime = Date.now();
+  const snapshotId = 1757622194193539;
+  const schemaId = schema["schema-id"] || 0;
+
+  // Build table path - match your actual S3 structure
+  const databaseName = namespaceParts[0];
+  const schemaName = namespaceParts[1] || "public";
+
+  // Map table names to your actual S3 paths
+  const tablePathMapping = {
+    "Database_namespace_one.users": "users_iceberg_table",
+    "Database_namespace_one.public.users": "users_iceberg_table",
+    "Database_namespace_one.user_activities": "user_activities_iceberg_table",
+    "Database_namespace_one.public.user_activities": "user_activities_iceberg_table",
+    "Database_namespace_two.products": "products_iceberg_table",
+    "Database_namespace_two.public.products": "products_iceberg_table",
+    "Database_namespace_two.inventory": "inventory_iceberg_table",
+    "Database_namespace_two.public.inventory": "inventory_iceberg_table",
+  };
+
+  const tablePathKey = `${namespaceKey}.${tableName}`;
+  const tableFolder = tablePathMapping[tablePathKey] || `${tableName}_iceberg_table`;
+  const tablePath = `s3://${process.env.S3_BUCKET || "my-data-lake"}/${tableFolder}`;
+
+  const metadata = {
+    "format-version": 2,
+    "table-uuid": `${tableName}-uuid-123456789`,
+    location: tablePath,
+    "last-sequence-number": sequenceNumber,
+    "last-updated-ms": currentTime,
+    "last-column-id": schema.fields ? schema.fields.length : 5,
+    "last-partition-id": 1000,
+    schema: schema,
+    schemas: [schema],
+    "current-schema-id": schemaId,
+    "partition-specs": [
+      {
+        "spec-id": 0,
+        fields: [],
+      },
+    ],
+    "default-spec-id": 0,
+    "sort-orders": [
+      {
+        "order-id": 0,
+        fields: [],
+      },
+    ],
+    "default-sort-order-id": 0,
+    properties: {
+      "write.format.default": "parquet",
+      "write.parquet.compression-codec": "snappy",
+    },
+    "current-snapshot-id": snapshotId,
+    snapshots: [
+      {
+        "snapshot-id": snapshotId,
+        "timestamp-ms": 1757622194193,
+        "manifest-list": `${tablePath}/metadata/snap-${snapshotId}-1.avro`,
+        summary: {
+          operation: "append",
+        },
+      },
+    ],
+    "snapshot-log": [],
+    "metadata-log": [],
+    refs: {
+      main: {
+        "snapshot-id": snapshotId,
+        type: "branch",
+      },
+    },
+  };
+
+  const config = {
+    "client.region": process.env.S3_AWS_REGION || "us-east-1",
+    "s3.access-key-id": process.env.S3_ACCESS_KEY || "",
+    "s3.secret-access-key": process.env.S3_SECRET_KEY || "",
+  };
+
+  return {
+    found: true,
+    metadataLocation: `${tablePath}/metadata/v1.metadata.json`,
+    metadata: metadata,
+    config: config,
+  };
+};
+
 export const NamespaceOneObjects = {
   identifiers: [{ name: "users" }, { name: "user_activities" }],
 };
@@ -289,90 +402,4 @@ export const inventoryTable = {
       inferred_data_type: "DATE",
     },
   ],
-};
-
-export const customMetadata = (namespacesName, tableSchemas, tableName) => {
-  const schema = tableSchemas[tableName];
-  const sequenceNumber = 1;
-  const currentTime = Date.now();
-  const snapshotId = 1757622194193539; // Use the real snapshot ID from our generated files
-  const schemaId = schema["schema-id"] || 0;
-
-  // Parse namespace to get database and schema names
-  let databaseName = "";
-  let schemaName = "public";
-
-  const decodedNamespace = decodeURIComponent(namespacesName);
-  if (decodedNamespace.includes(String.fromCharCode(31))) {
-    const parts = decodedNamespace.split(String.fromCharCode(31));
-    databaseName = parts[0];
-    schemaName = parts[1] || "public";
-  } else if (decodedNamespace.includes("Database_namespace_one")) {
-    databaseName = "Database_namespace_one";
-  } else if (decodedNamespace.includes("Database_namespace_two")) {
-    databaseName = "Database_namespace_two";
-  }
-
-  const tablePath = `s3://${process.env.S3_BUCKET}/${databaseName}/${schemaName}/${tableName}`;
-
-  console.log("tablePath", tablePath);
-  console.log(`${tablePath}/metadata/snap-${snapshotId}-1.avro`);
-
-  return {
-    "metadata-location": `${tablePath}/metadata/v1.metadata.json`,
-    metadata: {
-      "format-version": 2,
-      "table-uuid": "sample-table-uuid-123456789",
-      location: tablePath,
-      "last-sequence-number": sequenceNumber,
-      "last-updated-ms": currentTime,
-      "last-column-id": 5,
-      "last-partition-id": 1000,
-      schema: schema,
-      schemas: [schema],
-      "current-schema-id": schemaId,
-      "partition-specs": [
-        {
-          "spec-id": 0,
-          fields: [],
-        },
-      ],
-      "default-spec-id": 0,
-      "sort-orders": [
-        {
-          "order-id": 0,
-          fields: [],
-        },
-      ],
-      "default-sort-order-id": 0,
-      properties: {
-        "write.format.default": "parquet",
-        "write.parquet.compression-codec": "snappy",
-      },
-      "current-snapshot-id": snapshotId,
-      snapshots: [
-        {
-          "snapshot-id": snapshotId,
-          "timestamp-ms": 1757622194193,
-          "manifest-list": `${tablePath}/metadata/snap-${snapshotId}-1.avro`,
-          summary: {
-            operation: "append",
-          },
-        },
-      ],
-      "snapshot-log": [],
-      "metadata-log": [],
-      refs: {
-        main: {
-          "snapshot-id": snapshotId,
-          type: "branch",
-        },
-      },
-    },
-    config: {
-      "client.region": process.env.AWS_REGION || "us-east-1",
-      "s3.access-key-id": process.env.AWS_ACCESS_KEY_ID || "",
-      "s3.secret-access-key": process.env.AWS_SECRET_ACCESS_KEY || "",
-    },
-  };
 };
