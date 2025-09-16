@@ -90,7 +90,7 @@ export const getTableMetadata = (namespaceParts, tableName) => {
   // Generate table metadata following Apache Iceberg format
   const sequenceNumber = 1;
   const currentTime = Date.now();
-  const snapshotId = 1757622194193539;
+  const snapshotId = 1757970576147787; // Fixed snapshot ID matching uploaded manifest
   const schemaId = schema["schema-id"] || 0;
 
   // Map table names to your actual S3 paths
@@ -107,19 +107,20 @@ export const getTableMetadata = (namespaceParts, tableName) => {
 
   const tablePathKey = `${namespaceKey}.${tableName}`;
   const tableFolder = tablePathMapping[tablePathKey] || `${tableName}_iceberg_table`;
-  const tablePath = `s3://${process.env.S3_BUCKET || "my-data-lake"}/${tableFolder}`;
+  const tablePath = `s3://${process.env.S3_BUCKET}/${tableFolder}`;
 
   const metadata = {
     "format-version": 2,
-    "table-uuid": `${tableName}-uuid-123456789`,
+    // "table-uuid": `${tableName}-uuid-123456789`,
+    "table-uuid": "232d9a63-9bc3-4468-9894-4f6fc89099fc",
     location: tablePath,
     "last-sequence-number": sequenceNumber,
     "last-updated-ms": currentTime,
     "last-column-id": schema.fields ? schema.fields.length : 5,
-    "last-partition-id": 1000,
+    "last-partition-id": 999,
     schema: schema,
     schemas: [schema],
-    "current-schema-id": schemaId,
+    "current-schema-id": 0,
     "partition-specs": [
       {
         "spec-id": 0,
@@ -149,8 +150,18 @@ export const getTableMetadata = (namespaceParts, tableName) => {
         },
       },
     ],
-    "snapshot-log": [],
-    "metadata-log": [],
+    "snapshot-log": [
+      {
+        "timestamp-ms": 1757622194193,
+        "snapshot-id": snapshotId,
+      },
+    ],
+    "metadata-log": [
+      {
+        "timestamp-ms": 1757622194193,
+        "metadata-file": `${tablePath}/metadata/v1.metadata.json`,
+      },
+    ],
     refs: {
       main: {
         "snapshot-id": snapshotId,
@@ -188,35 +199,36 @@ export const FallbackObjects = {
 export const usersTable = {
   type: "struct",
   "schema-id": 0,
+  "identifier-field-ids": [1],
   fields: [
     {
       id: 1,
       name: "Id",
-      required: false,
+      required: true,
       type: "string",
     },
     {
       id: 2,
       name: "first_name",
-      required: false,
+      required: true,
       type: "string",
     },
     {
       id: 3,
       name: "last_name",
-      required: false,
+      required: true,
       type: "string",
     },
     {
       id: 4,
-      name: "country",
-      required: false,
+      name: "date_of_birth",
+      required: true,
       type: "string",
     },
     {
       id: 5,
-      name: "date_of_birth",
-      required: false,
+      name: "country",
+      required: true,
       type: "string",
     },
   ],
