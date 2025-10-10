@@ -1,12 +1,12 @@
 export const namespacesInfo = {
-  namespaces: [["Database_namespace_one"], ["Database_namespace_two"]],
+  namespaces: [["database_namespace_one"], ["Database_namespace_two"]],
 };
 
 export const namespaceHierarchy = {
-  topLevel: [["Database_namespace_one"], ["Database_namespace_two"]],
+  topLevel: [["database_namespace_one"], ["Database_namespace_two"]],
 
   children: {
-    Database_namespace_one: [["Database_namespace_one", "public"]],
+    database_namespace_one: [["database_namespace_one", "public"]],
     Database_namespace_two: [["Database_namespace_two", "public"]],
   },
 };
@@ -32,8 +32,8 @@ export const getTablesInNamespace = (namespaceParts, pageToken, pageSize) => {
 
   // Define table mapping for each namespace
   const tableMapping = {
-    Database_namespace_one: [{ name: "users" }, { name: "user_activities" }],
-    "Database_namespace_one.public": [{ name: "users" }, { name: "user_activities" }],
+    database_namespace_one: [{ name: "users" }, { name: "user_activities" }],
+    "database_namespace_one.public": [{ name: "users" }, { name: "user_activities" }],
     Database_namespace_two: [{ name: "products" }, { name: "inventory" }],
     "Database_namespace_two.public": [{ name: "products" }, { name: "inventory" }],
   };
@@ -70,10 +70,10 @@ export const getTableMetadata = (namespaceParts, tableName) => {
 
   // Define table schemas mapping
   const tableSchemas = {
-    "Database_namespace_one.users": usersTable,
-    "Database_namespace_one.user_activities": userActivities,
-    "Database_namespace_one.public.users": usersTable,
-    "Database_namespace_one.public.user_activities": userActivities,
+    "database_namespace_one.users": usersTable,
+    "database_namespace_one.user_activities": userActivities,
+    "database_namespace_one.public.users": usersTable,
+    "database_namespace_one.public.user_activities": userActivities,
     "Database_namespace_two.products": productsTable,
     "Database_namespace_two.inventory": inventoryTable,
     "Database_namespace_two.public.products": productsTable,
@@ -87,47 +87,45 @@ export const getTableMetadata = (namespaceParts, tableName) => {
     return { found: false };
   }
 
-  // Generate table metadata following Apache Iceberg format
+  // Generate table metadata following Apache Iceberg format - MATCH GLUE EXACTLY
   const sequenceNumber = 1;
-  const currentTime = Date.now();
-  const snapshotId = 1757970576147787; // Fixed snapshot ID matching uploaded manifest
+  const currentTime = 1760124034850; // GLUE timestamp
+  const snapshotId = 4511538188449157632; // GLUE snapshot ID
   const schemaId = schema["schema-id"] || 0;
 
-  // Map table names to your actual S3 paths
+  // Map table names to your actual S3 paths - MUST match namespace structure
   const tablePathMapping = {
-    "Database_namespace_one.users": "users_iceberg_table",
-    "Database_namespace_one.public.users": "users_iceberg_table",
-    "Database_namespace_one.user_activities": "user_activities_iceberg_table",
-    "Database_namespace_one.public.user_activities": "user_activities_iceberg_table",
-    "Database_namespace_two.products": "products_iceberg_table",
-    "Database_namespace_two.public.products": "products_iceberg_table",
-    "Database_namespace_two.inventory": "inventory_iceberg_table",
-    "Database_namespace_two.public.inventory": "inventory_iceberg_table",
+    "database_namespace_one.users": "database_namespace_one/users",
+    "database_namespace_one.public.users": "database_namespace_one/public/users",
+    "database_namespace_one.user_activities": "database_namespace_one/user_activities",
+    "database_namespace_one.public.user_activities": "database_namespace_one/public/user_activities",
+    "Database_namespace_two.products": "Database_namespace_two/products",
+    "Database_namespace_two.public.products": "Database_namespace_two/public/products",
+    "Database_namespace_two.inventory": "Database_namespace_two/inventory",
+    "Database_namespace_two.public.inventory": "Database_namespace_two/public/inventory",
   };
 
   const tablePathKey = `${namespaceKey}.${tableName}`;
-  const tableFolder = tablePathMapping[tablePathKey] || `${tableName}_iceberg_table`;
+  const tableFolder = tablePathMapping[tablePathKey] || `${namespaceKey.replace(".", "/")}/${tableName}`;
   const tablePath = `s3://${process.env.S3_BUCKET}/${tableFolder}`;
 
   const metadata = {
     "format-version": 2,
-    // "table-uuid": `${tableName}-uuid-123456789`,
-    "table-uuid": "232d9a63-9bc3-4468-9894-4f6fc89099fc",
-    location: tablePath,
-    "last-sequence-number": sequenceNumber,
-    "last-updated-ms": currentTime,
-    "last-column-id": schema.fields ? schema.fields.length : 5,
-    "last-partition-id": 999,
-    schema: schema,
-    schemas: [schema],
+    "table-uuid": "8d13e1e6-0cfc-48d0-985e-ba9a197a264b",
+    location: `s3://${process.env.S3_BUCKET}/Database_namespace_one/public/users/database_namespace_one/users`,
+    "last-sequence-number": 1,
+    "last-updated-ms": 1760124034850,
+    "last-column-id": 5,
     "current-schema-id": 0,
+    schemas: [schema],
+    "default-spec-id": 0,
     "partition-specs": [
       {
         "spec-id": 0,
         fields: [],
       },
     ],
-    "default-spec-id": 0,
+    "last-partition-id": 999,
     "sort-orders": [
       {
         "order-id": 0,
@@ -136,32 +134,46 @@ export const getTableMetadata = (namespaceParts, tableName) => {
     ],
     "default-sort-order-id": 0,
     properties: {
-      "write.format.default": "parquet",
-      "write.parquet.compression-codec": "snappy",
+      owner: "hadoop",
+      "write.parquet.compression-codec": "gzip",
     },
     "current-snapshot-id": snapshotId,
     snapshots: [
       {
+        "sequence-number": 1,
         "snapshot-id": snapshotId,
-        "timestamp-ms": 1757622194193,
-        "manifest-list": `${tablePath}/metadata/snap-${snapshotId}-1.avro`,
+        "timestamp-ms": 1760124034850,
         summary: {
           operation: "append",
+          "spark.app.id": "spark-application-1760124000186",
+          "added-data-files": "1",
+          "added-records": "10",
+          "added-files-size": "1700",
+          "changed-partition-count": "1",
+          "total-records": "10",
+          "total-files-size": "1700",
+          "total-data-files": "1",
+          "total-delete-files": "0",
+          "total-position-deletes": "0",
+          "total-equality-deletes": "0",
+          "engine-version": "3.5.4-amzn-0",
+          "app-id": "spark-application-1760124000186",
+          "engine-name": "spark",
+          "iceberg-version": "Apache Iceberg d15ff14 (commit d15ff144c77dff98552ddb3c39a86a1130fd4e32)",
         },
+        "manifest-list": `s3://${process.env.S3_BUCKET}/Database_namespace_one/public/users/database_namespace_one/users/metadata/snap-4511538188449157632-1-7419014b-10a1-4207-b4d5-048e32973137.avro`,
+        "schema-id": 0,
       },
     ],
+    statistics: [],
+    "partition-statistics": [],
     "snapshot-log": [
       {
-        "timestamp-ms": 1757622194193,
+        "timestamp-ms": 1760124034850,
         "snapshot-id": snapshotId,
       },
     ],
-    "metadata-log": [
-      {
-        "timestamp-ms": 1757622194193,
-        "metadata-file": `${tablePath}/metadata/v1.metadata.json`,
-      },
-    ],
+    "metadata-log": [],
     refs: {
       main: {
         "snapshot-id": snapshotId,
@@ -178,7 +190,7 @@ export const getTableMetadata = (namespaceParts, tableName) => {
 
   return {
     found: true,
-    metadataLocation: `${tablePath}/metadata/v1.metadata.json`,
+    metadataLocation: `s3://${process.env.S3_BUCKET}/Database_namespace_one/public/users/database_namespace_one/users/metadata/00000-a10553b1-a8ec-41f5-bb8b-7b253f42e435.metadata.json`,
     metadata: metadata,
     config: config,
   };
@@ -199,36 +211,35 @@ export const FallbackObjects = {
 export const usersTable = {
   type: "struct",
   "schema-id": 0,
-  "identifier-field-ids": [1],
   fields: [
     {
       id: 1,
       name: "Id",
-      required: true,
+      required: false,
       type: "string",
     },
     {
       id: 2,
       name: "first_name",
-      required: true,
+      required: false,
       type: "string",
     },
     {
       id: 3,
       name: "last_name",
-      required: true,
+      required: false,
       type: "string",
     },
     {
       id: 4,
-      name: "date_of_birth",
-      required: true,
+      name: "country",
+      required: false,
       type: "string",
     },
     {
       id: 5,
-      name: "country",
-      required: true,
+      name: "date_of_birth",
+      required: false,
       type: "string",
     },
   ],
