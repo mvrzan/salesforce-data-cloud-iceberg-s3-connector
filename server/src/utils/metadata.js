@@ -26,7 +26,7 @@ const productsTable = {
   type: "struct",
   "schema-id": 0,
   fields: [
-    { id: 1, name: "product_id", required: true, type: "string" },
+    { id: 1, name: "product_id", required: false, type: "string" },
     { id: 2, name: "product_name", required: false, type: "string" },
     { id: 3, name: "description", required: false, type: "string" },
     { id: 4, name: "category", required: false, type: "string" },
@@ -80,13 +80,13 @@ const TABLE_METADATA_REGISTRY = {
     schema: productsTable,
     s3Path: "database_namespace_two/public/products",
     glueMetadata: {
-      tableUuid: "e825c3a9-a70b-4482-9e5c-80e5790f6f81",
-      timestamp: 1761157298691,
-      snapshotId: 5242127314872899458,
+      tableUuid: "263d13d3-1ebb-464c-8cfa-412b928a1067",
+      timestamp: 1761162040609,
+      snapshotId: 3145819287284321818,
       lastColumnId: 5,
-      sparkAppId: "spark-application-1761157261622",
-      manifestListFile: "snap-5242127314872899458-1-e468b0a6-0171-479b-8034-54ef26dd75fb.avro",
-      metadataFile: "00000-78bef763-fd49-470c-8cbf-153395db8a1a.metadata.json",
+      sparkAppId: "spark-application-1761161998004",
+      manifestListFile: "snap-3145819287284321818-1-33e9f718-6b3e-48ef-add0-86a2db4427e3.avro",
+      metadataFile: "00000-72305c47-d825-4a80-919c-032cf46627a4.metadata.json",
       addedFilesSize: "2056",
       addedRecords: "10",
     },
@@ -96,7 +96,7 @@ const TABLE_METADATA_REGISTRY = {
     s3Path: "database_namespace_two/public/inventory",
     glueMetadata: {
       tableUuid: "PLACEHOLDER_UUID",
-      timestamp: Date.now(),
+      timestamp: 1761162040609,
       snapshotId: 0,
       lastColumnId: 4,
       sparkAppId: "spark-application-placeholder",
@@ -149,6 +149,8 @@ const buildIcebergMetadata = (tableEntry) => {
   const bucket = process.env.S3_BUCKET;
   const fullLocation = `s3://${bucket}/${s3Path}`;
   const baseMetadataPath = `${fullLocation}/metadata`;
+
+  console.log("schema", schema);
 
   return {
     "format-version": 2,
@@ -278,6 +280,8 @@ export const getTableMetadata = (namespaceParts, tableName) => {
   const config = buildS3Config();
 
   const metadataLocation = `s3://${bucket}/${tableEntry.s3Path}/metadata/${tableEntry.glueMetadata.metadataFile}`;
+
+  console.log("metadata", metadata.schemas.fields);
 
   return {
     found: true,
