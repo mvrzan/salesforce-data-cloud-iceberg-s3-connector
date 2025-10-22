@@ -38,8 +38,8 @@ const inventoryTable = {
   type: "struct",
   "schema-id": 0,
   fields: [
-    { id: 1, name: "product_id", required: true, type: "string" },
-    { id: 2, name: "warehouse_id", required: true, type: "string" },
+    { id: 1, name: "product_id", required: false, type: "string" },
+    { id: 2, name: "warehouse_id", required: false, type: "string" },
     { id: 3, name: "quantity", required: false, type: "string" },
     { id: 4, name: "last_updated", required: false, type: "date" },
   ],
