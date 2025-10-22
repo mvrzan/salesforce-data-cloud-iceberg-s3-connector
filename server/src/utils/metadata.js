@@ -41,7 +41,7 @@ const inventoryTable = {
     { id: 1, name: "product_id", required: false, type: "string" },
     { id: 2, name: "warehouse_id", required: false, type: "string" },
     { id: 3, name: "quantity", required: false, type: "string" },
-    { id: 4, name: "last_updated", required: false, type: "date" },
+    { id: 4, name: "last_updated", required: false, type: "string" },
   ],
 };
 
@@ -95,15 +95,15 @@ const TABLE_METADATA_REGISTRY = {
     schema: inventoryTable,
     s3Path: "database_namespace_two/public/inventory",
     glueMetadata: {
-      tableUuid: "PLACEHOLDER_UUID",
-      timestamp: 1761162040609,
-      snapshotId: 0,
+      tableUuid: "33eceb54-d0fb-4ef8-a0e5-b03bc7e87526",
+      timestamp: 1761166028747,
+      snapshotId: 4365061229438539921,
       lastColumnId: 4,
-      sparkAppId: "spark-application-placeholder",
-      manifestListFile: "placeholder.avro",
-      metadataFile: "placeholder.metadata.json",
-      addedFilesSize: "0",
-      addedRecords: "0",
+      sparkAppId: "spark-application-1761165991941",
+      manifestListFile: "snap-4365061229438539921-1-962ac594-2e36-4a66-babe-a29e9f12997d.avro",
+      metadataFile: "00000-a6e3c702-30eb-48ce-9e2a-34dd19411342.metadata.json",
+      addedFilesSize: "1442",
+      addedRecords: "10",
     },
   },
 };
