@@ -5,32 +5,8 @@ const tableName = (req, res) => {
   try {
     console.log(`${getCurrentTimestamp()} - 📈 tableName - Incoming request!`);
 
-    const { namespace, table } = req.params;
-    const decodedNamespace = decodeURIComponent(namespace);
-
-    console.log(`${getCurrentTimestamp()} - 📈 tableName - Decoded namespace: "${decodedNamespace}"`);
-
-    let namespaceParts;
-
-    if (decodedNamespace.includes("\x1F")) {
-      namespaceParts = decodedNamespace.split("\x1F");
-
-      console.log(`${getCurrentTimestamp()} - 📈 tableName - Split on unit separator (\\x1F)`);
-    } else if (decodedNamespace.includes(".")) {
-      namespaceParts = decodedNamespace.split(".");
-
-      console.log(`${getCurrentTimestamp()} - 📈 tableName - Split on dot separator (.)`);
-    } else {
-      namespaceParts = [decodedNamespace];
-
-      console.log(`${getCurrentTimestamp()} - 📈 tableName - Single part namespace`);
-    }
-
-    console.log(
-      `${getCurrentTimestamp()} - 📈 tableName - Namespace parts: [${namespaceParts.join(", ")}] (length: ${
-        namespaceParts.length
-      })`
-    );
+    const namespaceParts = req.namespaceParts;
+    const { table } = req.params;
 
     const result = getTableMetadata(namespaceParts, table);
 
