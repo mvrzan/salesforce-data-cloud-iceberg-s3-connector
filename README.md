@@ -84,26 +84,23 @@ This implementation allows you to leverage Data Cloud's powerful capabilities wh
 ├── README.md
 ├── screenshots/                    # Contains images used in documentation
 ├── server/
-│   ├── src/
-│   │   ├── controllers/            # API request handlers
-│   │   │   ├── config.js            # Config controller
-│   │   │   ├── namespaces.js       # Namespace controller
-│   │   │   ├── namespaceTables.js  # Tables by namespace controller
-│   │   │   └── tableName.js        # Table details controller
-│   │   ├── middleware/
-│   │   │   └── middleware.js       # Express middleware functions
-│   │   ├── routes/
-│   │   │   └── catalog.js          # Iceberg REST catalog routes
-│   │   ├── utils/
-│   │   │   ├── loggingUtil.js      # Logging helper functions
-│   │   │   └── metadata.js         # Iceberg schema & metadata definitions
-│   │   └── index.js                # Express application setup
-│   ├── package.json                # Dependencies and scripts
-|   ├── package-lock.json           # Dependencies
-│   └── .env.example                # Example environment variables
-└── examples/                       # Example files for connector usage
-    └── data/                       # Sample table parquet files
-    └── metadata/                   # Sample metadata files
+    ├── src/
+    │   ├── controllers/            # API request handlers
+    │   │   ├── config.js            # Config controller
+    │   │   ├── namespaces.js       # Namespace controller
+    │   │   ├── namespaceTables.js  # Tables by namespace controller
+    │   │   └── tableName.js        # Table details controller
+    │   ├── middleware/
+    │   │   └── middleware.js       # Express middleware functions
+    │   ├── routes/
+    │   │   └── catalog.js          # Iceberg REST catalog routes
+    │   ├── utils/
+    │   │   ├── loggingUtil.js      # Logging helper functions
+    │   │   └── metadata.js         # Iceberg schema & metadata definitions
+    │   └── index.js                # Express application setup
+    ├── package.json                # Dependencies and scripts
+    ├── package-lock.json           # Dependencies
+    └── .env.example                # Example environment variables
 ```
 
 ## API Documentation
