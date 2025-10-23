@@ -1,0 +1,11 @@
+user_id,activity_type,activity_date,location,device_info
+user_001,login,01/15/2025,New York,iPhone 14
+user_002,purchase,01/16/2025,Los Angeles,Samsung Galaxy
+user_003,view,01/17/2025,Chicago,iPad Pro
+user_004,logout,01/18/2025,Houston,MacBook Pro
+user_005,search,01/19/2025,Phoenix,Windows PC
+user_006,login,01/20/2025,Philadelphia,iPhone 13
+user_007,purchase,01/21/2025,San Antonio,Samsung Tab
+user_008,view,01/22/2025,San Diego,Android Phone
+user_009,logout,01/23/2025,Dallas,Linux Laptop
+user_010,search,01/24/2025,San Jose,Chrome OS

@@ -1,0 +1,11 @@
+product_id,product_name,description,category,price
+PROD001,Laptop Pro,High-performance laptop,Electronics,1299.99
+PROD002,Wireless Mouse,Ergonomic wireless mouse,Accessories,29.99
+PROD003,USB-C Cable,Fast charging cable,Accessories,19.99
+PROD004,Monitor 27",4K UHD monitor,Electronics,449.99
+PROD005,Keyboard Mechanical,RGB mechanical keyboard,Accessories,129.99
+PROD006,Webcam HD,Full HD webcam,Electronics,89.99
+PROD007,Headphones Noise-Canceling,Premium headphones,Electronics,199.99
+PROD008,Desk Lamp LED,Adjustable LED lamp,Office,39.99
+PROD009,Standing Desk,Electric standing desk,Furniture,599.99
+PROD010,Office Chair,Ergonomic office chair,Furniture,399.99
