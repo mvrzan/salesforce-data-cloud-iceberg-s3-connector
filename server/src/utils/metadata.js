@@ -150,8 +150,6 @@ const buildIcebergMetadata = (tableEntry) => {
   const fullLocation = `s3://${bucket}/${s3Path}`;
   const baseMetadataPath = `${fullLocation}/metadata`;
 
-  console.log("schema", schema);
-
   return {
     "format-version": 2,
     "table-uuid": glueMetadata.tableUuid,
@@ -216,9 +214,6 @@ const buildIcebergMetadata = (tableEntry) => {
   };
 };
 
-/**
- * Build S3 config object
- */
 const buildS3Config = () => ({
   "client.region": process.env.S3_AWS_REGION || "us-east-1",
   "s3.access-key-id": process.env.S3_ACCESS_KEY || "",
@@ -275,13 +270,11 @@ export const getTableMetadata = (namespaceParts, tableName) => {
     return { found: false };
   }
 
-  const bucket = process.env.S3_BUCKET || "mvrzan";
+  const bucket = process.env.S3_BUCKET;
   const metadata = buildIcebergMetadata(tableEntry);
   const config = buildS3Config();
 
   const metadataLocation = `s3://${bucket}/${tableEntry.s3Path}/metadata/${tableEntry.glueMetadata.metadataFile}`;
-
-  console.log("metadata", metadata.schemas.fields);
 
   return {
     found: true,
