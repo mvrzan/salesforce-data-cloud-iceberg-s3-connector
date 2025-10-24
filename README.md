@@ -24,6 +24,7 @@ Learn how you can leverage your Iceberg Catalog with Data Cloud's Iceberg connec
   - [Requirements](#requirements)
   - [Setup](#setup)
     - [Local environment configuration](#local-environment-configuration)
+    - [AWS setup](#aws-setup)
     - [Salesforce environment](#salesforce-environment)
   - [Deployment](#deployment)
 - [License](#license)
@@ -185,6 +186,10 @@ npm run dev
 Once all of this is done, your server will be available at http://localhost:3000
 
 > NOTE: If you want to deploy this application to Heroku, you will have to create all of the above variables as Heroku environment variables. This can be done via the [command line or the Heroku Dashboard UI](https://devcenter.heroku.com/articles/config-vars).
+
+### AWS setup
+
+Follow the [instructions](METADATA_SETUP.md) to get your metadata configured properly in S3.
 
 ### Salesforce environment
 
